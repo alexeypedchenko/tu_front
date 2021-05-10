@@ -1,0 +1,81 @@
+// *** *** *** px to vw *** *** ***
+$layout-width: 1440;
+// px to vw
+@function vw($px) {
+  $vw-context: ($layout-width*.01) * 1px;
+  @return ($px/$vw-context) * 1vw;
+};
+//percent minus vw
+@function percent-m-vw($percent, $px) {
+  $vw-context: ($layout-width*.01) * 1px;
+  @return unquote(('calc('+ $percent + ' - '+ ($px/$vw-context) * 1vw +')'));
+}
+//percent plus vw
+@function percent-p-vw($percent, $px) {
+  $vw-context: ($layout-width*.01) * 1px;
+  @return unquote(('calc('+ $percent + ' + '+ ($px/$vw-context) * 1vw +')'));
+}
+/* example usage
+body {
+  font-size: vw(16px);
+  width: percent-m-vw(100%, 20px);
+}
+*/
+
+
+
+// *** *** *** adaptive *** *** ***
+// $breakpoints: (xs: 375, sm: 414, md: 768, lg: 1024);
+$breakpoints: (xs: 400, sm: 600, md: 900, lg: 1200);
+
+@mixin max($size) {
+  @if map-has-key($breakpoints, $size) {
+    @media (max-width: #{map-get($breakpoints, $size)}px) {
+      @content;
+    }
+  } @else {
+    @media (max-width: #{$size}px) {
+      @content;
+    }
+  }
+};
+
+@mixin min($size) {
+  @if map-has-key($breakpoints, $size) {
+    @media (min-width: #{map-get($breakpoints, $size)}px) {
+      @content;
+    }
+  } @else {
+    @media (min-width: #{$size}px) {
+      @content;
+    }
+  }
+};
+
+/*** example usage adaptive ***
+body {
+  font-size: 16px;
+  @include max(1200) {
+    font-size: 14px;
+  }
+  or use variable
+  @include max(lg) {
+    font-size: 14px;
+  }
+}
+*** example usage adaptive ***/
+
+@mixin placeholder {
+  &::-webkit-input-placeholder {
+    @content
+  }
+  &:-moz-placeholder {
+    @content
+  }
+  &::-moz-placeholder {
+    @content
+  }
+  &:-ms-input-placeholder {
+    @content
+  }
+}

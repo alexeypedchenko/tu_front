@@ -1,0 +1,11 @@
+// *** *** *** grid variables *** *** ***
+$container-width: 1200px;
+
+.container {
+  // width: $container-width;
+  // container-width => 1200px - 60px * 2 = 1080px
+  width: $container-width;
+  padding: 0 60px;
+  max-width: 100%;
+  margin: 0 auto;
+}

@@ -9,15 +9,22 @@ export default {
     ],
     link: [
       { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }
-    ]
+    ],
+    script: [
+      // { src: 'https://unpkg.com/@google/markerclustererplus@5.1.0/dist/markerclustererplus.min.js' },
+      // { src: 'https://maps.googleapis.com/maps/api/js?key=AIzaSyBOMQAKjVaaYfe_fSHNn3CBFcbNS651GnA' },
+    ],
   },
 
   // Global CSS: https://go.nuxtjs.dev/config-css
   css: [
+    '~/assets/scss/main.scss',
   ],
 
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
   plugins: [
+    {src: '~/plugins/globalMixin.js'},
+    {src: '~/plugins/globalComponents.js'},
   ],
 
   // Auto import components: https://go.nuxtjs.dev/config-components
