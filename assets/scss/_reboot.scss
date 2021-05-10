@@ -38,7 +38,6 @@ a {
 textarea,
 input {
   padding: 0;
-  // border: none;
   border: 1px solid #eeeeee;
   outline: none;
   &::placeholder {
@@ -59,12 +58,14 @@ textarea::-webkit-scrollbar {
 
 button {
   background: none;
-  // border: none;
-  border: 1px solid #eeeeee;
+  border: 1px solid #ccc;
   outline: none;
   padding: 0;
   cursor: pointer;
   &:active {
     outline: 1px dotted currentColor;
+  }
+  &:hover {
+    background: #ccc;
   }
 }

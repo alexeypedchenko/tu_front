@@ -5,37 +5,21 @@
         Hello TU!
       </h1>
 
-      <div
-        class="place"
-        v-for="place in getPlaces"
-        :key="place.id"
-      >
-        <h3 class="place-name">
-          {{ place.name }}
-        </h3>
-        <button class="btn" @click="$router.push(`/place/${place.id}`)">
-          go to {{ place.name }}
-        </button>
-      </div>
+      <place-preview />
 
-      <div ref="map" class="map"></div>
+      <google-map />
     </div>
   </div>
 </template>
 
 <script>
-import { GoogleMap } from '~/google/GoogleMap'
+import GoogleMap from '~/components/GoogleMap'
+import PlacePreview from '~/components/places/PlacePreview'
 export default {
-  mounted() {
-    // console.log('this.getPlaces:', this.getPlaces)
-    const map = new GoogleMap('.map')
-    map
-      .init()
-      .then(() => {
-        // map.setMarker()
-        map.setMarkers()
-      })
-  }
+  components: {
+    GoogleMap,
+    PlacePreview,
+  },
 }
 </script>
 
@@ -45,25 +29,5 @@ export default {
   h1 {
     margin-bottom: 40px;
   }
-}
-
-.place {
-  border: 1px solid #000;
-  padding: 20px;
-  margin-bottom: 20px;
-  display: flex;
-  align-items: flex-start;
-  flex-direction: column;
-  .place-name {
-    margin-bottom: 20px;
-  }
-  .btn {
-    padding: 5px 20px;
-  }
-}
-
-.map {
-  height: 400px;
-  width: 100%;
 }
 </style>

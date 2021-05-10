@@ -4,7 +4,7 @@ import { MAP_STYLES } from './GoogleMapStyles'
 import { getMapWindowTemplate } from './halpers'
 
 export class GoogleMap {
-  constructor(selector) {
+  constructor(selector, items = []) {
     this.loader = new Loader({
       apiKey: 'AIzaSyBOMQAKjVaaYfe_fSHNn3CBFcbNS651GnA',
       version: 'weekly',
@@ -15,8 +15,8 @@ export class GoogleMap {
     this.mapContainer = document.querySelector(selector)
 
     this.mapOptions = {
-      styles: MAP_STYLES,
-      zoom: 4,
+      // styles: MAP_STYLES,
+      zoom: 10,
       center: {
         lat: -33,
         lng: 151
@@ -36,190 +36,28 @@ export class GoogleMap {
     this.marker = null
     this.markers = []
 
-    this.locations = [
-      {
-        latlng: {
-          lat: -31.56391,
-          lng: 147.154312
-        }
-      },
-      {
-        latlng: {
-          lat: -33.718234,
-          lng: 150.363181
-        }
-      },
-      {
-        latlng: {
-          lat: -33.727111,
-          lng: 150.371124
-        }
-      },
-      {
-        latlng: {
-          lat: -33.848588,
-          lng: 151.209834
-        }
-      },
-      {
-        latlng: {
-          lat: -33.851702,
-          lng: 151.216968
-        }
-      },
-      {
-        latlng: {
-          lat: -34.671264,
-          lng: 150.863657
-        }
-      },
-      {
-        latlng: {
-          lat: -35.304724,
-          lng: 148.662905
-        }
-      },
-      {
-        latlng: {
-          lat: -36.817685,
-          lng: 175.699196
-        }
-      },
-      {
-        latlng: {
-          lat: -36.828611,
-          lng: 175.790222
-        }
-      },
-      {
-        latlng: {
-          lat: -37.75,
-          lng: 145.116667
-        }
-      },
-      {
-        latlng: {
-          lat: -37.759859,
-          lng: 145.128708
-        }
-      },
-      {
-        latlng: {
-          lat: -37.765015,
-          lng: 145.133858
-        }
-      },
-      {
-        latlng: {
-          lat: -37.770104,
-          lng: 145.143299
-        }
-      },
-      {
-        latlng: {
-          lat: -37.7737,
-          lng: 145.145187
-        }
-      },
-      {
-        latlng: {
-          lat: -37.774785,
-          lng: 145.137978
-        }
-      },
-      {
-        latlng: {
-          lat: -37.819616,
-          lng: 144.968119
-        }
-      },
-      {
-        latlng: {
-          lat: -38.330766,
-          lng: 144.695692
-        }
-      },
-      {
-        latlng: {
-          lat: -39.927193,
-          lng: 175.053218
-        }
-      },
-      {
-        latlng: {
-          lat: -41.330162,
-          lng: 174.865694
-        }
-      },
-      {
-        latlng: {
-          lat: -42.734358,
-          lng: 147.439506
-        }
-      },
-      {
-        latlng: {
-          lat: -42.734358,
-          lng: 147.501315
-        }
-      },
-      {
-        latlng: {
-          lat: -42.735258,
-          lng: 147.438
-        }
-      },
-      {
-        latlng: {
-          lat: -43.999792,
-          lng: 170.463352
-        }
-      },
-    ]
+    this.items = items
 
-    this.clusterStyles = [
-      // sm cluster
-      {
-        textColor: 'white',
-        // url: IMG_URL,
-        // height: MARKER_SIZE,
-        // width: MARKER_SIZE
-      },
-      // md cluster
-      {
-        textColor: 'white',
-      },
-      // lg cluster
-      {
-        textColor: 'white',
-      }
-    ];
-  }
-
-  setMarker() {
-    this.marker = new google.maps.Marker({
-      position: this.mapOptions.center,
-      map: this.map,
-      title: 'Hello World!',
-    })
+    this.bounds = null
   }
 
   setMarkers() {
     // переменная для определения границ маркеров
-    const bounds = new google.maps.LatLngBounds()
+    this.bounds = new google.maps.LatLngBounds()
 
-    this.locations.forEach((item) => {
+    this.items.forEach((item) => {
       // создаем маркер
       const marker = new google.maps.Marker({
-        position: item.latlng,
+        position: item.coordinates,
       })
 
       // добавляем маркер
       this.markers.push(marker)
 
       // добавляем новую позицию маркера для центрирования карты
-      bounds.extend(item.latlng)
+      this.bounds.extend(item.coordinates)
 
+      // создаем модальное окно маркера
       this.createInfoWindow(marker, item)
     })
 
@@ -228,15 +66,20 @@ export class GoogleMap {
       imagePath: 'https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/m',
     })
 
+    // после класстеризации всех маркеров, центрируем карту относительно позиции всех маркеров
+    this.centeredMap()
+  }
+
+  centeredMap() {
     // центрируем карту относительно всех маркеров
-    this.map.fitBounds(bounds);
+    this.map.fitBounds(this.bounds)
   }
 
   createInfoWindow(marker, markerData) {
     // добавляем модальное окно
-    const modal = getMapWindowTemplate(markerData) // шаблон модального окна карты в строковом формате
+    const modalTemplate = getMapWindowTemplate(markerData) // шаблон модального окна карты в строковом формате
     const infowindow = new google.maps.InfoWindow({
-      content: modal
+      content: modalTemplate
     })
 
     // при клике на маркер связываем модальное окно и маркер, далее открываем модалку
@@ -244,7 +87,17 @@ export class GoogleMap {
       if(infowindow.getMap()) {
         infowindow.close(this.map, marker)
       } else {
+        // имитация клика по карте для закрытия всех infoWindow
+        google.maps.event.trigger(this.map, 'click')
+
+        // открываем нужный infowindow
         infowindow.open(this.map, marker)
+
+        // Центрируем карту относительно нужного маркера
+        this.map.setCenter(marker.getPosition())
+
+        // приближаем карту
+        this.map.setZoom(10)
       }
     })
 
@@ -252,6 +105,11 @@ export class GoogleMap {
     this.map.addListener('click', () => {
       infowindow.close(this.map, marker)
     })
+  }
+
+  handleClickMarker(index) {
+    // имитируем клик по маркеру
+    google.maps.event.trigger(this.markers[index], 'click')
   }
 
   init() {

@@ -4,6 +4,7 @@ export const place = {
   name: 'Place name',
   type: 'Park',
   img: 'https://via.placeholder.com/1920x1080?text=img-place',
+  markerImg: 'https://via.placeholder.com/120x80?text=img-place',
   shortdescription: 'shortdescription',
   description: 'description',
   tags: [
@@ -14,7 +15,7 @@ export const place = {
   town: 'Town',
   region: 'Region',
   coordinates: {
-    lat: 1,
-    lng: 1,
+    lat: 46.64288927,
+    lng: 31.07230514,
   },
 }
