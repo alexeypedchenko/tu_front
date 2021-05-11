@@ -1,6 +1,9 @@
 import { Loader } from '@googlemaps/js-api-loader'
 import MarkerClusterer from '@googlemaps/markerclustererplus'
-import { MAP_STYLES } from './GoogleMapStyles'
+import {
+  MAP_STYLES_DARK,
+  MAP_STYLES_WHITE,
+} from './GoogleMapStyles'
 import { getMapWindowTemplate } from './halpers'
 
 export class GoogleMap {
@@ -15,7 +18,7 @@ export class GoogleMap {
     this.mapContainer = document.querySelector(selector)
 
     this.mapOptions = {
-      // styles: MAP_STYLES,
+      // styles: MAP_STYLES_WHITE,
       zoom: 10,
       center: {
         lat: -33,
@@ -78,20 +81,29 @@ export class GoogleMap {
   createInfoWindow(marker, markerData) {
     // добавляем модальное окно
     const modalTemplate = getMapWindowTemplate(markerData) // шаблон модального окна карты в строковом формате
-    const infowindow = new google.maps.InfoWindow({
+    const infoWindow = new google.maps.InfoWindow({
       content: modalTemplate
     })
 
+    this.openInfoWindowOnMarkerClick(marker, infoWindow)
+  
+    // при клике на карту закрываем все модальные окна
+    this.map.addListener('click', () => {
+      infoWindow.close(this.map, marker)
+    })
+  }
+
+  openInfoWindowOnMarkerClick(marker, infoWindow) {
     // при клике на маркер связываем модальное окно и маркер, далее открываем модалку
     marker.addListener('click', () => {
-      if(infowindow.getMap()) {
-        infowindow.close(this.map, marker)
+      if(infoWindow.getMap()) {
+        infoWindow.close(this.map, marker)
       } else {
         // имитация клика по карте для закрытия всех infoWindow
         google.maps.event.trigger(this.map, 'click')
 
-        // открываем нужный infowindow
-        infowindow.open(this.map, marker)
+        // открываем нужный infoWindow
+        infoWindow.open(this.map, marker)
 
         // Центрируем карту относительно нужного маркера
         this.map.setCenter(marker.getPosition())
@@ -99,11 +111,6 @@ export class GoogleMap {
         // приближаем карту
         this.map.setZoom(10)
       }
-    })
-
-    // при клике на карту закрываем все модальные окна
-    this.map.addListener('click', () => {
-      infowindow.close(this.map, marker)
     })
   }
 

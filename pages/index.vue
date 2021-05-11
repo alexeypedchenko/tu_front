@@ -6,9 +6,9 @@
       </h1>
 
       <place-preview />
-
-      <google-map />
     </div>
+
+    <google-map />
   </div>
 </template>
 
@@ -25,7 +25,6 @@ export default {
 
 <style lang="scss">
 .home {
-  padding-top: 20px;
   h1 {
     margin-bottom: 40px;
   }

@@ -1,4 +1,4 @@
-const MAP_STYLES = [
+const MAP_STYLES_DARK = [
   {
     "featureType": "all",
     "elementType": "labels.text.fill",
@@ -570,4 +570,8 @@ const MAP_STYLES_WHITE = [
     ]
   }
 ]
-export { MAP_STYLES }
+
+export {
+  MAP_STYLES_DARK,
+  MAP_STYLES_WHITE,
+}
