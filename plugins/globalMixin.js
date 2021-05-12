@@ -7,8 +7,11 @@ Vue.mixin({
     // ...mapState(['value']),
     // ...mapGetters(['value']),
     getPlaces() {
-      return this.$store.state.demo.places.data
-    }
+      return this.$store.state.places.data
+    },
+    getFiltredPlaces() {
+      return this.$store.getters['places/filtredPlaces']
+    },
   },
   methods: {
   },

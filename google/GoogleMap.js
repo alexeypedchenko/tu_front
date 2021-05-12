@@ -19,10 +19,10 @@ export class GoogleMap {
 
     this.mapOptions = {
       // styles: MAP_STYLES_WHITE,
-      zoom: 10,
+      zoom: 6,
       center: {
-        lat: -33,
-        lng: 151
+        lat: 49.30881846,
+        lng: 30.53801849,
       },
       clickableIcons: false, // клик на объекты карты и видеть информацию о них
       // disableDefaultUI: true, // выключить все элементы элементы управления картой
@@ -38,17 +38,21 @@ export class GoogleMap {
     // marker
     this.marker = null
     this.markers = []
+    this.markerCluster = null
 
     this.items = items
 
     this.bounds = null
   }
 
-  setMarkers() {
+  setMarkers(markers = []) {
+    // очищаем маркеры
+    this.clearMarkers()
+
     // переменная для определения границ маркеров
     this.bounds = new google.maps.LatLngBounds()
 
-    this.items.forEach((item) => {
+    markers.forEach((item) => {
       // создаем маркер
       const marker = new google.maps.Marker({
         position: item.coordinates,
@@ -65,17 +69,35 @@ export class GoogleMap {
     })
 
     // группируем маркеры
-    const markerCluster = new MarkerClusterer(this.map, this.markers, {
+    this.markerCluster = new MarkerClusterer(this.map, this.markers, {
       imagePath: 'https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/m',
     })
 
     // после класстеризации всех маркеров, центрируем карту относительно позиции всех маркеров
-    this.centeredMap()
+    if (this.markers.length > 1) {
+      this.centeredMap()
+    } else if (this.markers.length === 1) {
+      // Центрируем карту относительно единственного маркера
+      this.map.setCenter(this.markers[0].getPosition())
+      this.map.setZoom(10)
+    } else {
+      // сбрасываем центр в исходную позицию
+      this.map.setCenter(this.mapOptions.center)
+      this.map.setZoom(this.mapOptions.zoom)
+    }
   }
 
   centeredMap() {
     // центрируем карту относительно всех маркеров
     this.map.fitBounds(this.bounds)
+
+    // после обновление маркеров с 0 до n они группируються в одном класстере
+    // сбрасываем зюм для предотарвщения группировки
+    const mapZoom = this.map.getZoom()
+    this.map.setZoom(mapZoom - 1)
+    setTimeout(() => {
+      this.map.setZoom(mapZoom)
+    }, 0)
   }
 
   createInfoWindow(marker, markerData) {
@@ -112,6 +134,17 @@ export class GoogleMap {
         this.map.setZoom(10)
       }
     })
+  }
+
+  clearMarkers() {
+    if (this.markerCluster !== null) {
+      this.bounds = null
+      this.markerCluster.clearMarkers()
+    }
+    this.markers.forEach((marker, index) => {
+      this.markers[index].setMap(null)
+    })
+    this.markers = []
   }
 
   handleClickMarker(index) {

@@ -5,20 +5,25 @@
         Hello TU!
       </h1>
 
-      <place-preview />
+      <app-fltr />
+
+      <place-preview-list />
     </div>
 
-    <google-map />
+    <google-map class="home__map" />
   </div>
 </template>
 
 <script>
-import GoogleMap from '~/components/GoogleMap'
-import PlacePreview from '~/components/places/PlacePreview'
+import GoogleMap from '~/components/google/GoogleMap'
+import PlacePreviewList from '~/components/places/PlacePreviewList'
+import Fltr from '~/components/fltr/Fltr'
+
 export default {
   components: {
     GoogleMap,
-    PlacePreview,
+    PlacePreviewList,
+    AppFltr: Fltr,
   },
 }
 </script>
@@ -28,5 +33,10 @@ export default {
   h1 {
     margin-bottom: 40px;
   }
+  display: flex;
+  align-items: stretch;
+}
+.home__map {
+  width: 50%;
 }
 </style>

@@ -18,7 +18,7 @@ export default {
     ...mapState([
       'activeInfoWindow',
       'triggerInfoWindow'
-    ])
+    ]),
   },
   data() {
     return {
@@ -28,14 +28,19 @@ export default {
   watch: {
     triggerInfoWindow() {
       this.handleMarker(this.activeInfoWindow)
+    },
+    getFiltredPlaces(afterData, beforeData) {
+      if (JSON.stringify(afterData) !== JSON.stringify(beforeData)) {
+        this.map.setMarkers(this.getFiltredPlaces)
+      }
     }
   },
   mounted() {
-    this.map = new GoogleMap('.google-map__container', this.getPlaces)
+    this.map = new GoogleMap('.google-map__container')
     this.map
       .init()
       .then(() => {
-        this.map.setMarkers()
+        this.map.setMarkers(this.getFiltredPlaces)
       })
   },
   methods: {
@@ -51,7 +56,7 @@ export default {
 
 <style lang="scss">
 .google-map {
-  // margin-bottom: 40px;
+  margin-bottom: 40px;
   position: relative;
 }
 .google-map__centred-btn {
@@ -74,7 +79,8 @@ export default {
   }
 }
 .google-map__container {
-  height: 400px;
+  min-height: 600px;
+  height: 100%;
   width: 100%;
 }
 </style>
