@@ -1,23 +1,32 @@
+import { getUniqueCollection } from '~/utils/functions'
+
 export const state = () => ({
-  search: '',
-  tag: '',
-  tags: [
-    'tag 1',
-    'tag 2',
-    'tag 3',
-    'tag 4',
-  ],
+  name: '',
+  tags: '',
+  region: '',
+  town: '',
 })
+
+export const getters = {
+  getTags(state, getters, store) {
+    return getUniqueCollection(store.places.data, 'tags', true)
+  },
+  getTowns(state, getters, store) {
+    return getUniqueCollection(store.places.data, 'town')
+  },
+  getRegions(state, getters, store) {
+    return getUniqueCollection(store.places.data, 'region')
+  },
+}
 
 export const mutations = {
   clearFilters(state) {
-    state.tag = ''
-    state.search = ''
+    Object.keys(state).forEach((key) => {
+      state[key] = ''
+    })
   },
-  searchFilter(state, value) {
-    state.search = value
-  },
-  tagFilter(state, tag) {
-    state.tag = tag
+
+  setFilterValue(state, {name, value}) {
+    state[name] = value
   },
 }

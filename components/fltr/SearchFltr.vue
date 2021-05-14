@@ -1,33 +1,44 @@
 <template>
   <div class="search-fltr">
-    <div v-if="name" class="search-fltr__title">
-      {{ name }}
+    <div v-if="title" class="search-fltr__title">
+      {{ title }}
     </div>
-    <input class="search-fltr__field" type="text" :value="search" @input="handleSearch($event.target.value)">
+
+    <input
+      class="search-fltr__field"
+      type="text"
+      :value="value"
+      @input="handleSearch($event)"
+    >
   </div>
 </template>
 
 <script>
-import {mapState} from 'vuex'
 export default {
   name: 'SearchFltr',
   props: {
-    name: {
+    title: {
       type: String,
       default: 'Search place:',
     },
-  },
-  data() {
-    return {
-      searchValue: 'name',
-    }
-  },
-  computed: {
-    ...mapState('filters', ['search']),
+    name: {
+      type: String,
+      default: '',
+    },
+    value: {
+      type: String,
+      default: '',
+    },
   },
   methods: {
-    handleSearch(value) {
-      this.$store.commit('filters/searchFilter', value)
+    handleSearch(event) {
+      const props = {
+        name: this.name,
+        value: event.target.value,
+      }
+
+      this.$emit('input', props)
+      this.$emit('change', props)
     }
   }
 }

@@ -1,10 +1,6 @@
 <template>
   <div class="home">
     <div class="container">
-      <h1>
-        Hello TU!
-      </h1>
-
       <app-fltr />
 
       <place-preview-list />
@@ -30,13 +26,10 @@ export default {
 
 <style lang="scss">
 .home {
-  h1 {
-    margin-bottom: 40px;
-  }
   display: flex;
   align-items: stretch;
 }
 .home__map {
-  width: 50%;
+  width: 80%;
 }
 </style>

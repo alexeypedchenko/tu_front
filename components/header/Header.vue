@@ -20,6 +20,7 @@ export default {
 <style lang="scss">
 .header {
   position: fixed;
+  z-index: 999;
   background: #fff;
   border-bottom: 1px solid #000;
   top: 0;
