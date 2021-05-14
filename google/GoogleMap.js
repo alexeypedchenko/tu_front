@@ -7,7 +7,7 @@ import {
 import { getMapWindowTemplate } from './halpers'
 
 export class GoogleMap {
-  constructor(selector, items = []) {
+  constructor(selector) {
     this.loader = new Loader({
       apiKey: 'AIzaSyBOMQAKjVaaYfe_fSHNn3CBFcbNS651GnA',
       version: 'weekly',
@@ -36,11 +36,8 @@ export class GoogleMap {
     }
 
     // marker
-    this.marker = null
     this.markers = []
     this.markerCluster = null
-
-    this.items = items
 
     this.bounds = null
   }
@@ -56,6 +53,21 @@ export class GoogleMap {
       // создаем маркер
       const marker = new google.maps.Marker({
         position: item.coordinates,
+        icon: {
+          // https://developers.google.com/maps/documentation/javascript/reference/marker#Icon
+          url: item.marker.icon,
+          size: new google.maps.Size(30, 30),
+          scaledSize: new google.maps.Size(30, 30),
+        },
+        // label: {
+        //   // https://developers.google.com/maps/documentation/javascript/reference/marker#MarkerLabel
+        //   text: item.name,
+        //   color: 'black',
+        //   fontFamily: 'Arial',
+        //   fontSize: '16',
+        //   fontWeight: '700',
+        //   className: 'custom-label-class',
+        // }
       })
 
       // добавляем маркер
@@ -66,6 +78,9 @@ export class GoogleMap {
 
       // создаем модальное окно маркера
       this.createInfoWindow(marker, item)
+
+      // Добавляем событие Mouseover
+      this.markerOnMouseover(marker, item)
     })
 
     // группируем маркеры
@@ -90,7 +105,10 @@ export class GoogleMap {
   centeredMap() {
     // центрируем карту относительно всех маркеров
     this.map.fitBounds(this.bounds)
+    this.rebotMapZoom()
+  }
 
+  rebotMapZoom() {
     // после обновление маркеров с 0 до n они группируються в одном класстере
     // сбрасываем зюм для предотарвщения группировки
     const mapZoom = this.map.getZoom()
@@ -136,6 +154,16 @@ export class GoogleMap {
     })
   }
 
+  markerOnMouseover(marker, item) {
+    marker.addListener('mouseover', () => {
+      marker.setIcon(item.marker.icon)
+    })
+  }
+  markerOnMouseout(marker) {
+    marker.addListener('mouseout', () => {
+    })
+  }
+
   clearMarkers() {
     if (this.markerCluster !== null) {
       this.bounds = null
@@ -151,6 +179,23 @@ export class GoogleMap {
     // имитируем клик по маркеру
     google.maps.event.trigger(this.markers[index], 'click')
   }
+
+  handleMarkerOnMouseover(index) {
+    google.maps.event.trigger(this.markers[index], 'mouseover')
+  }
+
+  // handleHoverMarker(index) {
+  //   // имитируем клик по маркеру
+  //   google.maps.event.trigger(this.markers[index], 'click')
+
+  //   // Switch icon on marker mouseover and mouseout
+  //   google.maps.event.addListener(marker, "mouseover", function() {
+  //     marker.setIcon(gicons["yellow"]);
+  //   });
+  //   google.maps.event.addListener(marker, "mouseout", function() {
+  //     marker.setIcon(gicons["blue"]);
+  //   });
+  // }
 
   init() {
     return new Promise((resolve, reject) => {

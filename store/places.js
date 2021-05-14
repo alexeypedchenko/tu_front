@@ -15,6 +15,9 @@ export const state = () => ({
       ],
       town: 'Kiev',
       region: 'Kiev Region',
+      marker: {
+        icon: 'https://via.placeholder.com/30x30/000000/ffffff?text=icon',
+      },
       coordinates: {
         lat: 46.64288927,
         lng: 31.07230514,
@@ -35,6 +38,9 @@ export const state = () => ({
       ],
       town: 'Odesa',
       region: 'Odesa Region',
+      marker: {
+        icon: 'https://via.placeholder.com/30x30/000000/ffffff?text=icon',
+      },
       coordinates: {
         lat: 46.64288927,
         lng: 32.07230514,
@@ -54,6 +60,9 @@ export const state = () => ({
       ],
       town: 'Lviv',
       region: 'Lviv Region',
+      marker: {
+        icon: 'https://via.placeholder.com/30x30/000000/ffffff?text=icon',
+      },
       coordinates: {
         lat: 46.88288927,
         lng: 32.07230514,

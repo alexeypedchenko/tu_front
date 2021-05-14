@@ -83,4 +83,8 @@ export default {
   height: 100%;
   width: 100%;
 }
+.custom-label-class {
+  padding: 2px 4px;
+  background: #fff;
+}
 </style>
