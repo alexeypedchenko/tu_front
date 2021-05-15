@@ -17,7 +17,8 @@ export default {
   computed: {
     ...mapState([
       'activeInfoWindow',
-      'triggerInfoWindow'
+      'triggerInfoWindow',
+      'hoveredMarker'
     ]),
   },
   data() {
@@ -32,6 +33,11 @@ export default {
     getFiltredPlaces(afterData, beforeData) {
       if (JSON.stringify(afterData) !== JSON.stringify(beforeData)) {
         this.map.setMarkers(this.getFiltredPlaces)
+      }
+    },
+    hoveredMarker() {
+      if (this.hoveredMarker) {
+        this.map.createMarker(this.hoveredMarker)
       }
     }
   },
@@ -49,7 +55,7 @@ export default {
     },
     centeredMap() {
       this.map.centeredMap()
-    }
+    },
   },
 }
 </script>

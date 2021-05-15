@@ -4,7 +4,6 @@ import {
   MAP_STYLES_DARK,
   MAP_STYLES_WHITE,
 } from './GoogleMapStyles'
-import { getMapWindowTemplate } from './halpers'
 
 export class GoogleMap {
   constructor(selector) {
@@ -35,10 +34,11 @@ export class GoogleMap {
       scrollwheel: true, // возможность масштабировать карту мышкой или тачпадом
     }
 
-    // marker
+    // markers
     this.markers = []
-    this.markerCluster = null
 
+    // cluster
+    this.markerCluster = null
     this.bounds = null
   }
 
@@ -51,36 +51,15 @@ export class GoogleMap {
 
     markers.forEach((item) => {
       // создаем маркер
-      const marker = new google.maps.Marker({
-        position: item.coordinates,
-        icon: {
-          // https://developers.google.com/maps/documentation/javascript/reference/marker#Icon
-          url: item.marker.icon,
-          size: new google.maps.Size(30, 30),
-          scaledSize: new google.maps.Size(30, 30),
-        },
-        // label: {
-        //   // https://developers.google.com/maps/documentation/javascript/reference/marker#MarkerLabel
-        //   text: item.name,
-        //   color: 'black',
-        //   fontFamily: 'Arial',
-        //   fontSize: '16',
-        //   fontWeight: '700',
-        //   className: 'custom-label-class',
-        // }
-      })
-
-      // добавляем маркер
+      const marker = this.createMarker(item)
+      // добавляем маркер в массив
       this.markers.push(marker)
-
       // добавляем новую позицию маркера для центрирования карты
       this.bounds.extend(item.coordinates)
-
       // создаем модальное окно маркера
       this.createInfoWindow(marker, item)
-
       // Добавляем событие Mouseover
-      this.markerOnMouseover(marker, item)
+      // this.markerOnMouseover(marker, item)
     })
 
     // группируем маркеры
@@ -88,28 +67,50 @@ export class GoogleMap {
       imagePath: 'https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/m',
     })
 
-    // после класстеризации всех маркеров, центрируем карту относительно позиции всех маркеров
+    this.centeredMap()
+  }
+
+  createMarker(data) {
+    return new google.maps.Marker({
+      position: data.coordinates,
+      // https://developers.google.com/maps/documentation/javascript/reference/marker#Icon
+      icon: {
+        url: data.marker.icon,
+        size: new google.maps.Size(30, 30),
+        // если изображение больше 30px, масштабируем до 30
+        scaledSize: new google.maps.Size(30, 30),
+      },
+      // https://developers.google.com/maps/documentation/javascript/reference/marker#MarkerLabel
+      // label: {
+      //   text: data.name,
+      //   color: 'black',
+      //   fontFamily: 'Arial',
+      //   fontSize: '16',
+      //   fontWeight: '700',
+      //   className: 'custom-label-class',
+      // },
+      map: this.map
+    })
+  }
+
+  centeredMap() {
+    // центрируем карту относительно всех маркеров
     if (this.markers.length > 1) {
-      this.centeredMap()
+      this.map.fitBounds(this.bounds)
+      this.rebotMapZoom()
+    // Центрируем карту относительно одного маркера
     } else if (this.markers.length === 1) {
-      // Центрируем карту относительно единственного маркера
       this.map.setCenter(this.markers[0].getPosition())
       this.map.setZoom(10)
+    // если маркеров нет, сбрасываем центр в исходную позицию
     } else {
-      // сбрасываем центр в исходную позицию
       this.map.setCenter(this.mapOptions.center)
       this.map.setZoom(this.mapOptions.zoom)
     }
   }
 
-  centeredMap() {
-    // центрируем карту относительно всех маркеров
-    this.map.fitBounds(this.bounds)
-    this.rebotMapZoom()
-  }
-
   rebotMapZoom() {
-    // после обновление маркеров с 0 до n они группируються в одном класстере
+    // после обновление маркеров с 0 до n, они группируються в одном класстере
     // сбрасываем зюм для предотарвщения группировки
     const mapZoom = this.map.getZoom()
     this.map.setZoom(mapZoom - 1)
@@ -120,7 +121,7 @@ export class GoogleMap {
 
   createInfoWindow(marker, markerData) {
     // добавляем модальное окно
-    const modalTemplate = getMapWindowTemplate(markerData) // шаблон модального окна карты в строковом формате
+    const modalTemplate = this.getInfoWindowTemplate(markerData) // шаблон модального окна карты в строковом формате
     const infoWindow = new google.maps.InfoWindow({
       content: modalTemplate
     })
@@ -156,7 +157,13 @@ export class GoogleMap {
 
   markerOnMouseover(marker, item) {
     marker.addListener('mouseover', () => {
-      marker.setIcon(item.marker.icon)
+      // marker.setIcon(item.marker.icon)
+      console.log('setZIndex:')
+      // this.markers[1].setVisible(true);
+      // this.markers[1].setZIndex(200);
+      console.log('this.markers[1]:', this.markers[1])
+      // console.log(this.markers[1].getOpacity())
+      // marker.setVisible(true);
     })
   }
   markerOnMouseout(marker) {
@@ -180,22 +187,38 @@ export class GoogleMap {
     google.maps.event.trigger(this.markers[index], 'click')
   }
 
-  handleMarkerOnMouseover(index) {
+  handleMarkerMouseover(index) {
     google.maps.event.trigger(this.markers[index], 'mouseover')
   }
 
-  // handleHoverMarker(index) {
-  //   // имитируем клик по маркеру
-  //   google.maps.event.trigger(this.markers[index], 'click')
-
-  //   // Switch icon on marker mouseover and mouseout
-  //   google.maps.event.addListener(marker, "mouseover", function() {
-  //     marker.setIcon(gicons["yellow"]);
-  //   });
-  //   google.maps.event.addListener(marker, "mouseout", function() {
-  //     marker.setIcon(gicons["blue"]);
-  //   });
+  // handleMarkerMouseout(index) {
+  //   google.maps.event.trigger(this.markers[index], 'mouseout')
   // }
+
+  getInfoWindowTemplate(data) {
+    return `
+      <div class="map-window">
+        <a>
+          <!-- href="{item.link}" -->
+          <div class="map-window-img">
+            <img src="${data.markerImg}" alt="${data.name}">
+          </div>
+          <div class="map-window-content">
+            <div class="map-window-text">
+              <h2 class="map-window-title h5">
+                ${data.name}
+              </h2>
+              <p class="map-window-description p2">
+                <span>
+                  ${data.shortdescription}
+                <span/>
+              </p>
+            </div>
+          </div>
+        </a>
+      </div>
+    `
+  }
 
   init() {
     return new Promise((resolve, reject) => {

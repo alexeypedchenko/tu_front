@@ -1,5 +1,9 @@
 <template>
-  <div class="place-preview">
+  <div
+    class="place-preview"
+    @mouseover="handleOver"
+    @mouseout="handleOut"
+  >
     <div class="place-preview-tags">
       <span
         v-for="tag in item.tags"
@@ -38,7 +42,15 @@ export default {
   methods: {
     showOnMap(index) {
       this.$store.commit('openInfoWindow', index)
-    }
+    },
+    handleOver() {
+      console.log('handleOver:')
+      this.$store.commit('showHoveredMarker', this.item)
+    },
+    handleOut() {
+      console.log('handleOut:')
+      this.$store.commit('showHoveredMarker', null)
+    },
   }
 }
 </script>
