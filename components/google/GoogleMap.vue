@@ -35,9 +35,11 @@ export default {
         this.map.setMarkers(this.getFiltredPlaces)
       }
     },
-    hoveredMarker() {
+    hoveredMarker(afterData, beforeData) {
       if (this.hoveredMarker) {
-        this.map.createMarker(this.hoveredMarker)
+        this.map.handleCreateMarker(this.hoveredMarker)
+      } else {
+        this.map.removeLastMarker()
       }
     }
   },

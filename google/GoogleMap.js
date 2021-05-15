@@ -70,8 +70,8 @@ export class GoogleMap {
     this.centeredMap()
   }
 
-  createMarker(data) {
-    return new google.maps.Marker({
+  createMarker(data, onMap = false) {
+    const options = {
       position: data.coordinates,
       // https://developers.google.com/maps/documentation/javascript/reference/marker#Icon
       icon: {
@@ -89,8 +89,24 @@ export class GoogleMap {
       //   fontWeight: '700',
       //   className: 'custom-label-class',
       // },
-      map: this.map
-    })
+    }
+    if (onMap) {
+      options.map = this.map
+    }
+    return new google.maps.Marker(options)
+  }
+
+  handleCreateMarker(data) {
+    const marker = this.createMarker(data, true)
+    this.markers.push(marker)
+  }
+
+  removeMarker(index) {
+    this.markers[index].setMap(null)
+  }
+
+  removeLastMarker() {
+    this.markers[this.markers.length - 1].setMap(null)
   }
 
   centeredMap() {
@@ -177,7 +193,7 @@ export class GoogleMap {
       this.markerCluster.clearMarkers()
     }
     this.markers.forEach((marker, index) => {
-      this.markers[index].setMap(null)
+      this.removeMarker(index)
     })
     this.markers = []
   }
