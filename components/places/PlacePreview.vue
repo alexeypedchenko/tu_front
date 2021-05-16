@@ -44,11 +44,9 @@ export default {
       this.$store.commit('openInfoWindow', index)
     },
     handleOver() {
-      console.log('handleOver:')
       this.$store.commit('showHoveredMarker', this.item)
     },
     handleOut() {
-      console.log('handleOut:')
       this.$store.commit('showHoveredMarker', null)
     },
   }

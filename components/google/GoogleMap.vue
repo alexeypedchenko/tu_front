@@ -24,6 +24,7 @@ export default {
   data() {
     return {
       map: null,
+      pin: '/icons/pin.svg',
     }
   },
   watch: {
@@ -44,7 +45,7 @@ export default {
     }
   },
   mounted() {
-    this.map = new GoogleMap('.google-map__container')
+    this.map = new GoogleMap('.google-map__container', this.pin)
     this.map
       .init()
       .then(() => {

@@ -10,7 +10,6 @@ export const mutations = {
     state.triggerInfoWindow = !state.triggerInfoWindow
   },
   showHoveredMarker(state, data) {
-    console.log('data:', data)
     state.hoveredMarker = data
   }
 }

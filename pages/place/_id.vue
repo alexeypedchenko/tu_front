@@ -1,21 +1,19 @@
 <template>
-  <div class="place-page">
-    <div class="container">
-      <h1>
-        {{ place.name }}
-      </h1>
-    </div>
+  <div>
+    <PlacePage :item="place" />
   </div>
 </template>
 
 <script>
-import { place } from '~/utils/dbscheme'
+import PlacePage from '~/components/places/PlacePage'
 export default {
-  computed: {
-    place() { return place}
+  components: {
+    PlacePage
   },
-  mounted() {
-    console.log('this.$route:', this.$route.params.id)
+  computed: {
+    place() {
+      return this.$store.state.places.data.find((place) => +place.id === +this.$route.params.id)
+    }
   }
 }
 </script>

@@ -6,7 +6,7 @@ import {
 } from './GoogleMapStyles'
 
 export class GoogleMap {
-  constructor(selector) {
+  constructor(selector, pin) {
     this.loader = new Loader({
       apiKey: 'AIzaSyBOMQAKjVaaYfe_fSHNn3CBFcbNS651GnA',
       version: 'weekly',
@@ -36,10 +36,13 @@ export class GoogleMap {
 
     // markers
     this.markers = []
+    this.circle = null
 
     // cluster
     this.markerCluster = null
     this.bounds = null
+
+    this.pin = pin
   }
 
   setMarkers(markers = []) {
@@ -58,8 +61,10 @@ export class GoogleMap {
       this.bounds.extend(item.coordinates)
       // создаем модальное окно маркера
       this.createInfoWindow(marker, item)
-      // Добавляем событие Mouseover
-      // this.markerOnMouseover(marker, item)
+
+      // Добавляем события наведении мишки
+      this.markerOnMouseover(marker, item)
+      this.markerOnMouseout(marker, item)
     })
 
     // группируем маркеры
@@ -73,11 +78,12 @@ export class GoogleMap {
   createMarker(data, onMap = false) {
     const options = {
       position: data.coordinates,
+      zIndex: 10,
       // https://developers.google.com/maps/documentation/javascript/reference/marker#Icon
       icon: {
-        url: data.marker.icon,
+        url: data.marker.icon || this.pin,
         size: new google.maps.Size(30, 30),
-        // если изображение больше 30px, масштабируем до 30
+        // если изображение меньше или больше 30px, масштабируем до 30
         scaledSize: new google.maps.Size(30, 30),
       },
       // https://developers.google.com/maps/documentation/javascript/reference/marker#MarkerLabel
@@ -99,6 +105,7 @@ export class GoogleMap {
   handleCreateMarker(data) {
     const marker = this.createMarker(data, true)
     this.markers.push(marker)
+    this.showCircle(marker)
   }
 
   removeMarker(index) {
@@ -107,6 +114,7 @@ export class GoogleMap {
 
   removeLastMarker() {
     this.markers[this.markers.length - 1].setMap(null)
+    this.hideCircle()
   }
 
   centeredMap() {
@@ -173,29 +181,30 @@ export class GoogleMap {
 
   markerOnMouseover(marker, item) {
     marker.addListener('mouseover', () => {
-      // marker.setIcon(item.marker.icon)
-      console.log('setZIndex:')
-      // this.markers[1].setVisible(true);
-      // this.markers[1].setZIndex(200);
-      console.log('this.markers[1]:', this.markers[1])
-      // console.log(this.markers[1].getOpacity())
-      // marker.setVisible(true);
+      this.showCircle(marker)
     })
   }
   markerOnMouseout(marker) {
     marker.addListener('mouseout', () => {
+      this.hideCircle()
     })
   }
 
   clearMarkers() {
+    this.clearCluster()
+
+    this.markers.forEach((marker, index) => {
+      this.removeMarker(index)
+    })
+
+    this.markers = []
+  }
+
+  clearCluster() {
     if (this.markerCluster !== null) {
       this.bounds = null
       this.markerCluster.clearMarkers()
     }
-    this.markers.forEach((marker, index) => {
-      this.removeMarker(index)
-    })
-    this.markers = []
   }
 
   handleClickMarker(index) {
@@ -204,6 +213,7 @@ export class GoogleMap {
   }
 
   handleMarkerMouseover(index) {
+    // Реализовать подсветку маркера
     google.maps.event.trigger(this.markers[index], 'mouseover')
   }
 
@@ -236,12 +246,46 @@ export class GoogleMap {
     `
   }
 
+  createCircle() {
+    return new google.maps.Marker({
+      zIndex: 1,
+      visible: false,
+      position: {
+        lat: 46.64288927,
+        lng: 31.07230514,
+      },
+      icon: {
+        path: google.maps.SymbolPath.CIRCLE,
+        fillColor: 'green',
+        fillOpacity: 0.15,
+        strokeColor: 'green',
+        strokeOpacity: 0.8,
+        strokeWeight: 1,
+        scale: 20,
+        anchor: new google.maps.Point(0, 0.8),
+        zIndex: 1
+      },
+      map: this.map
+    })
+  }
+
+  showCircle(marker) {
+    const position = marker.getPosition()
+    this.circle.setPosition(position)
+    this.circle.setVisible(true)
+  }
+
+  hideCircle() {
+    this.circle.setVisible(false)
+  }
+
   init() {
     return new Promise((resolve, reject) => {
       this.loader
         .load()
         .then(() => {
           this.map = new google.maps.Map(this.mapContainer, this.mapOptions)
+          this.circle = this.createCircle()
           return resolve()
         })
         .catch((error) => {
