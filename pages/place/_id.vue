@@ -19,9 +19,4 @@ export default {
 </script>
 
 <style lang="scss">
-.place-page {
-  h1 {
-    margin-bottom: 40px;
-  }
-}
 </style>

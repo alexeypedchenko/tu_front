@@ -43,6 +43,63 @@ export class GoogleMap {
     this.bounds = null
 
     this.pin = pin
+
+    this.directionsService = null
+    this.directionsRenderer = null
+  }
+
+  initDirections() {
+    this.directionsService = new google.maps.DirectionsService()
+    // https://developers.google.com/maps/documentation/javascript/reference/directions#DirectionsRendererOptions
+    this.directionsRenderer = new google.maps.DirectionsRenderer({
+      suppressMarkers: true, // Подавить рендеринг маркеров.
+      // https://developers.google.com/maps/documentation/javascript/reference/polygon#PolylineOptions
+      polylineOptions: {
+        strokeColor: 'blue',
+        zIndex: 1,
+      }
+    })
+
+    this.directionsRenderer.setMap(this.map)
+  }
+
+  setWaypointsToDirections(waypts) {
+    // для отрисовки маршрута, точек на карте должно быть больше 2 и более
+    if (waypts.langth < 2) return
+
+    waypts = waypts.map((waypt) => {
+      return this.createWaypoint(waypt)
+    })
+
+    const request = {
+      origin: waypts[0].location, // определяем стартовую точку
+      destination: waypts[waypts.length - 1].location, // определяем конечную точку
+      optimizeWaypoints: true,
+      travelMode: google.maps.TravelMode.DRIVING,
+    }
+
+    // определяем промежуточные точки
+    if (waypts.length > 2) {
+      request.waypoints = waypts.splice(1, waypts.length - 2)
+    }
+
+    this.directionsService.route(request, (response, status) => {
+      if (status === "OK" && response) {
+        this.directionsRenderer.setDirections(response)
+      } else {
+        window.alert("Directions request failed due to " + status);
+      }
+    })
+  }
+
+  createWaypoint(marker) {
+    const lat = marker.coordinates ? marker.coordinates.lat : marker.getPosition().lat()
+    const lng = marker.coordinates ? marker.coordinates.lng : marker.getPosition().lng()
+    // https://developers.google.com/maps/documentation/javascript/reference/directions#DirectionsWaypoint
+    return {
+      location: new google.maps.LatLng(lat, lng),
+      stopover: false,
+    }
   }
 
   setMarkers(markers = []) {
@@ -73,6 +130,7 @@ export class GoogleMap {
     })
 
     this.centeredMap()
+    this.setWaypointsToDirections(this.markers)
   }
 
   createMarker(data, onMap = false) {
@@ -248,7 +306,7 @@ export class GoogleMap {
 
   createCircle() {
     return new google.maps.Marker({
-      zIndex: 1,
+      zIndex: 2,
       visible: false,
       position: {
         lat: 46.64288927,
@@ -263,7 +321,7 @@ export class GoogleMap {
         strokeWeight: 1,
         scale: 20,
         anchor: new google.maps.Point(0, 0.8),
-        zIndex: 1
+        zIndex: 2
       },
       map: this.map
     })
@@ -285,6 +343,7 @@ export class GoogleMap {
         .load()
         .then(() => {
           this.map = new google.maps.Map(this.mapContainer, this.mapOptions)
+          this.initDirections()
           this.circle = this.createCircle()
           return resolve()
         })
