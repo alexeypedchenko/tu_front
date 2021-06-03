@@ -25,6 +25,11 @@ export default {
           name: 'Home',
           ref: '/',
         },
+        {
+          id: 1,
+          name: 'Routes',
+          ref: '/routes',
+        },
       ],
     }
   },
@@ -32,10 +37,20 @@ export default {
 </script>
 
 <style lang="scss">
+.navbar__list {
+  display: flex;
+}
+.navbar__item {
+  &:not(:last-child) {
+    margin-right: 20px;
+  }
+}
 .navbar__link {
   color: lightseagreen;
+  border-bottom: 1px solid transparent;
+  &.nuxt-link-exact-active,
   &:hover {
-    text-decoration: underline;
+    border-bottom-color: lightseagreen;
   }
 }
 </style>

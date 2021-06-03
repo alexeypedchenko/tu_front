@@ -4,8 +4,12 @@
       <div class="fltr__name">
         Filter
       </div>
-      <button class="fltr__clear" @click="clearFilters">
-        clear filters
+      <button
+        v-if="hasFilters"
+        class="fltr__clear"
+        @click="clearFilters"
+      >
+        clear all filters
       </button>
     </div>
 
@@ -61,7 +65,13 @@ export default {
     SearchFltr,
     FltrItem,
   },
+  data() {
+    return {
+      hasFilters: false,
+    }
+  },
   computed: {
+    ...mapState(['filters']),
     ...mapState('filters', [
       'tags',
       'town',
@@ -72,14 +82,27 @@ export default {
       'getTags',
       'getTowns',
       'getRegions',
-    ])
+    ]),
   },
   methods: {
     filterItemChange(props) {
       this.$store.commit('filters/setFilterValue', props)
+      this.checkFilters()
     },
     clearFilters() {
+      this.hasFilters = false
       this.$store.commit('filters/clearFilters')
+    },
+    checkFilters() {
+      console.log('checkFilters:')
+      for(const key of Object.keys(this.filters)) {
+        console.log('this.filters[key]:', this.filters[key])
+        if (this.filters[key]) {
+          this.hasFilters = true
+          break
+        }
+        this.hasFilters = false
+      }
     }
   }
 }
@@ -89,7 +112,7 @@ export default {
 .fltr {
   border: 1px solid #000;
   padding: 10px;
-  margin-bottom: 40px;
+  position: relative;
 }
 .fltr__head {
   display: flex;
@@ -98,6 +121,9 @@ export default {
   margin-bottom: 20px;
 }
 .fltr__clear {
+  position: absolute;
+  top: 10px;
+  right: 10px;
   padding: 5px 15px;
 }
 .fltr__list {

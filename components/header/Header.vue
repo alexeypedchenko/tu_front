@@ -2,6 +2,8 @@
   <div class="header">
     <div class="container">
       <app-navbar />
+
+      {{ $store.state.places.favorites.length }}
     </div>
   </div>
 </template>
@@ -26,6 +28,12 @@ export default {
   top: 0;
   left: 0;
   width: 100%;
-  padding: 20px 0;
+  height: 60px;
+  display: flex;
+  align-items: center;
+  .container {
+    display: flex;
+    justify-content: space-between;
+  }
 }
 </style>

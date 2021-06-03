@@ -25,10 +25,11 @@ export default {
 
 <style lang="scss">
 .main {
-  padding-top: 100px;
+  padding-top: 60px;
   flex-grow: 1;
 }
 .footer {
+  display: none;
   padding: 20px 0;
   text-align: center;
   border-top: 1px solid #000;

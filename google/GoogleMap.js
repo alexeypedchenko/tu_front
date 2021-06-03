@@ -130,7 +130,7 @@ export class GoogleMap {
     })
 
     this.centeredMap()
-    this.setWaypointsToDirections(this.markers)
+    // this.setWaypointsToDirections(this.markers)
   }
 
   createMarker(data, onMap = false) {

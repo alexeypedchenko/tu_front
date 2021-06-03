@@ -2,9 +2,9 @@ export const state = () => ({
   data: [
     {
       id: '001',
+      type: 'place',
       slag: 'place-name-1',
       name: 'Place name 1',
-      type: 'Park',
       img: 'https://via.placeholder.com/1920x1080?text=img-place',
       markerImg: 'https://via.placeholder.com/120x80?text=img-place',
       shortdescription: 'shortdescription',
@@ -25,9 +25,9 @@ export const state = () => ({
     },
     {
       id: '002',
+      type: 'place',
       slag: 'place-name-2',
       name: 'Place name 2',
-      type: 'Park',
       img: 'https://via.placeholder.com/1920x1080?text=img-place',
       markerImg: 'https://via.placeholder.com/120x80?text=img-place',
       shortdescription: 'shortdescription',
@@ -48,9 +48,9 @@ export const state = () => ({
     },
     {
       id: '003',
+      type: 'place',
       slag: 'place-name-3',
       name: 'Place name 3',
-      type: 'Park',
       img: 'https://via.placeholder.com/1920x1080?text=img-place',
       markerImg: 'https://via.placeholder.com/120x80?text=img-place',
       shortdescription: 'shortdescription',
@@ -68,7 +68,8 @@ export const state = () => ({
         lng: 32.07230514,
       },
     },
-  ]
+  ],
+  favorites: [],
 })
 
 export const getters = {
@@ -101,5 +102,15 @@ export const getters = {
 
       return condition
     })
+  }
+}
+
+export const mutations = {
+  setFavoritePlace(state, place) {
+    if (state.favorites.includes(place)) {
+      state.favorites = state.favorites.filter((plc) => plc !== place)
+      return
+    }
+    state.favorites.push(place)
   }
 }
