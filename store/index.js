@@ -1,15 +1,8 @@
 export const state = () => ({
-  activeInfoWindow: null,
-  triggerInfoWindow: false,
-  hoveredMarker: null,
 })
 
 export const mutations = {
-  openInfoWindow(state, index) {
-    state.activeInfoWindow = index
-    state.triggerInfoWindow = !state.triggerInfoWindow
+  mutate(state, payload) {
+    state[payload.prop] = payload.value
   },
-  showHoveredMarker(state, data) {
-    state.hoveredMarker = data
-  }
 }

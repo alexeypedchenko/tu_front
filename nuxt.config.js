@@ -1,4 +1,10 @@
 export default {
+  // Disable server-side rendering: https://go.nuxtjs.dev/ssr-mode
+  ssr: false,
+
+  // Target: https://go.nuxtjs.dev/config-target
+  target: 'static',
+
   // Global page headers: https://go.nuxtjs.dev/config-head
   head: {
     title: 'tu_front',
@@ -25,6 +31,7 @@ export default {
   plugins: [
     {src: '~/plugins/globalMixin.js'},
     {src: '~/plugins/globalComponents.js'},
+    {src: '~/plugins/auth.js'},
   ],
 
   // Auto import components: https://go.nuxtjs.dev/config-components

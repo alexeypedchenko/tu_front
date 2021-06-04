@@ -14,8 +14,14 @@ import { GoogleMap } from '~/google/GoogleMap'
 
 export default {
   name: 'GoogleMap',
+  props: {
+    items: {
+      type: Array,
+      default: () => ([])
+    }
+  },
   computed: {
-    ...mapState([
+    ...mapState('map', [
       'activeInfoWindow',
       'triggerInfoWindow',
       'hoveredMarker'
@@ -28,13 +34,13 @@ export default {
     }
   },
   watch: {
+    items(afterData, beforeData) {
+      if (JSON.stringify(afterData) !== JSON.stringify(beforeData)) {
+        this.map.setMarkers(this.items)
+      }
+    },
     triggerInfoWindow() {
       this.handleMarker(this.activeInfoWindow)
-    },
-    getFiltredPlaces(afterData, beforeData) {
-      if (JSON.stringify(afterData) !== JSON.stringify(beforeData)) {
-        this.map.setMarkers(this.getFiltredPlaces)
-      }
     },
     hoveredMarker(afterData, beforeData) {
       if (this.hoveredMarker) {
@@ -49,7 +55,7 @@ export default {
     this.map
       .init()
       .then(() => {
-        this.map.setMarkers(this.getFiltredPlaces)
+        this.map.setMarkers(this.items)
       })
   },
   methods: {
@@ -67,6 +73,8 @@ export default {
 .google-map {
   margin-bottom: 40px;
   position: relative;
+  height: 100%;
+  width: 100%;
 }
 .google-map__centred-btn {
   position: absolute;

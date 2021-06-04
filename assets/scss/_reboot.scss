@@ -63,6 +63,7 @@ button {
   outline: none;
   padding: 0;
   cursor: pointer;
+  padding: 5px 10px;
   &:active {
     outline: 1px dotted currentColor;
   }

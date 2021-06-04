@@ -94,9 +94,7 @@ export default {
       this.$store.commit('filters/clearFilters')
     },
     checkFilters() {
-      console.log('checkFilters:')
       for(const key of Object.keys(this.filters)) {
-        console.log('this.filters[key]:', this.filters[key])
         if (this.filters[key]) {
           this.hasFilters = true
           break

@@ -3,12 +3,18 @@
     <div class="container">
       <app-navbar />
 
-      {{ $store.state.places.favorites.length }}
+      <button
+        v-if="user"
+        @click="logout"
+      >
+        logout
+      </button>
     </div>
   </div>
 </template>
 
 <script>
+import firebase from '~/firebase/firebaseApp'
 import Navbar from './Navbar'
 
 export default {
@@ -16,6 +22,24 @@ export default {
   components: {
     AppNavbar: Navbar,
   },
+  computed: {
+    user() {
+      return this.$store.state.auth.user
+    }
+  },
+  methods: {
+    async logout() {
+      await firebase
+        .auth()
+        .signOut()
+        .then(() => {
+          this.$store.dispatch('auth/fireAuthAction')
+          this.$router.push('/login')
+        }).catch((error) => {
+            console.log('logout error:', error)
+        })
+    },
+  }
 }
 </script>
 

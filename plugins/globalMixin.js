@@ -6,12 +6,6 @@ Vue.mixin({
   computed: {
     // ...mapState(['value']),
     // ...mapGetters(['value']),
-    getPlaces() {
-      return this.$store.state.places.data
-    },
-    getFiltredPlaces() {
-      return this.$store.getters['places/filtredPlaces']
-    },
   },
   methods: {
   },

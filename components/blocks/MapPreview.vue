@@ -1,5 +1,9 @@
 <template>
-  <div class="map-preview">
+  <div
+    class="map-preview"
+    @mouseover="handleOver"
+    @mouseout="handleOut"
+  >
     <div class="map-preview__head">
       <div
         v-if="item.tags"
@@ -17,19 +21,21 @@
         <button @click="handleRoute">
           to route
         </button>
-        <button @click="handleFavorites">
-          favorites
-          {{ hasInFavorites ? '*' : '' }}
-        </button>
       </div>
     </div>
 
     <div class="map-preview__body">
-      <div class="map-preview__name">
-        {{ item.name || 'Name' }}
+      <div
+        v-if="item.name"
+        class="map-preview__name"
+      >
+        {{ item.name }}
       </div>
-      <div class="map-preview__description">
-        {{ item.shortdescription || description }}
+      <div
+        v-if="item.description"
+        class="map-preview__description"
+      >
+        {{ item.description }}
       </div>
     </div>
 
@@ -37,7 +43,7 @@
       <button @click="handleDetails">
         Details ->
       </button>
-      <button @click="handleMap">
+      <button @click="showOnMap(index)">
         Show on map ()
       </button>
     </div>
@@ -48,10 +54,14 @@
 export default {
   name: 'MapPreview',
   props: {
+    index: {
+      type: Number,
+      default: 0,
+    },
     item: {
       type: Object,
       default: () => ({})
-    }
+    },
   },
   data() {
     return {
@@ -67,16 +77,18 @@ export default {
     handleRoute() {
       console.log('Place added to Route')
     },
-    handleFavorites() {
-      this.$store.commit('places/setFavoritePlace', this.item)
-      console.log('Place || Route added to Favorites')
-    },
     handleDetails() {
-      console.log('handleDetails')
+      this.$router.push(`/places/${this.item._id}`)
     },
-    handleMap() {
-      console.log('handleMap')
-    }
+    showOnMap(index) {
+      this.$store.commit('map/openInfoWindow', index)
+    },
+    handleOver() {
+      this.$store.commit('map/showHoveredMarker', this.item)
+    },
+    handleOut() {
+      this.$store.commit('map/showHoveredMarker', null)
+    },
   }
 }
 </script>

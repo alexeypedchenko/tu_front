@@ -1,20 +1,26 @@
 <template>
   <div class="map-page">
     <div class="map-page__content">
-      <div class="map-page__filter">
+      <div
+        v-if="showFilter"
+        class="map-page__filter"
+      >
         <app-fltr />
       </div>
       <div class="map-page__items">
         <map-preview
-          v-for="item in previews"
+          v-for="(item, index) in items"
           :key="item.id"
+          :index="index"
           :item="item"
-        ></map-preview>
+        />
       </div>
     </div>
 
     <div class="map-page__map">
-      <!-- <google-map /> -->
+      <google-map
+        :items="items"
+      />
     </div>
   </div>
 </template>
@@ -27,7 +33,11 @@ import GoogleMap from '~/components/google/GoogleMap'
 export default {
   name: 'MapPage',
   props: {
-    previews: {
+    showFilter: {
+      type: Boolean,
+      default: true,
+    },
+    items: {
       type: Array,
       default: () => ([]),
     },
@@ -36,6 +46,14 @@ export default {
     AppFltr: Fltr,
     MapPreview,
     GoogleMap,
+  },
+  beforeMount() {
+    console.log('beforeMount:')
+    // set header sm
+  },
+  beforeDestroy() {
+    console.log('beforeDestroy:')
+    // remove header sm
   }
 }
 </script>
@@ -66,6 +84,5 @@ export default {
 .map-page__map {
   width: 100%;
   height: 100%;
-  background: green;
 }
 </style>

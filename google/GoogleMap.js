@@ -93,8 +93,8 @@ export class GoogleMap {
   }
 
   createWaypoint(marker) {
-    const lat = marker.coordinates ? marker.coordinates.lat : marker.getPosition().lat()
-    const lng = marker.coordinates ? marker.coordinates.lng : marker.getPosition().lng()
+    const lat = marker.coordinates ? +marker.coordinates.lat : marker.getPosition().lat()
+    const lng = marker.coordinates ? +marker.coordinates.lng : marker.getPosition().lng()
     // https://developers.google.com/maps/documentation/javascript/reference/directions#DirectionsWaypoint
     return {
       location: new google.maps.LatLng(lat, lng),
@@ -115,7 +115,10 @@ export class GoogleMap {
       // добавляем маркер в массив
       this.markers.push(marker)
       // добавляем новую позицию маркера для центрирования карты
-      this.bounds.extend(item.coordinates)
+      this.bounds.extend({
+        lat: +item.marker.coordinates.lat,
+        lng: +item.marker.coordinates.lng,
+      })
       // создаем модальное окно маркера
       this.createInfoWindow(marker, item)
 
@@ -135,11 +138,14 @@ export class GoogleMap {
 
   createMarker(data, onMap = false) {
     const options = {
-      position: data.coordinates,
+      position: {
+        lat: +data.marker.coordinates.lat,
+        lng: +data.marker.coordinates.lng,
+      },
       zIndex: 10,
       // https://developers.google.com/maps/documentation/javascript/reference/marker#Icon
       icon: {
-        url: data.marker.icon || this.pin,
+        url: this.pin || data.marker.icon,
         size: new google.maps.Size(30, 30),
         // если изображение меньше или больше 30px, масштабируем до 30
         scaledSize: new google.maps.Size(30, 30),

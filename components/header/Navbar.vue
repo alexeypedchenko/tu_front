@@ -27,8 +27,8 @@ export default {
         },
         {
           id: 1,
-          name: 'Routes',
-          ref: '/routes',
+          name: 'Places',
+          ref: '/places',
         },
       ],
     }

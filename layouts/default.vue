@@ -19,7 +19,8 @@ import Header from '~/components/header/Header'
 export default {
   components: {
     AppHeader: Header,
-  }
+  },
+  middleware: 'auth',
 }
 </script>
 

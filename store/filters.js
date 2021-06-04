@@ -1,4 +1,5 @@
 import { getUniqueCollection } from '~/utils/functions'
+const IS_ARRAY = true
 
 export const state = () => ({
   name: '',
@@ -9,13 +10,13 @@ export const state = () => ({
 
 export const getters = {
   getTags(state, getters, store) {
-    return getUniqueCollection(store.places.data, 'tags', true)
+    return getUniqueCollection(store.places.list, 'tags', IS_ARRAY)
   },
   getTowns(state, getters, store) {
-    return getUniqueCollection(store.places.data, 'town')
+    return getUniqueCollection(store.places.list, 'town')
   },
   getRegions(state, getters, store) {
-    return getUniqueCollection(store.places.data, 'region')
+    return getUniqueCollection(store.places.list, 'region')
   },
 }
 
