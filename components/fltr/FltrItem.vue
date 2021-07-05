@@ -8,7 +8,7 @@
         {{ title }}
       </span>
       <button
-        v-if="currentValue"
+        v-if="value"
         class="fltr__item-clear"
         @click="clear"
       >
@@ -16,11 +16,15 @@
       </button>
     </div>
 
-    <select :name="name" @change="change">
+    <select
+      :name="name"
+      @change="change"
+      @input="change"
+    >
       <option
         v-if="placeholder"
         disabled
-        :selected="!list.includes(currentValue)"
+        :selected="!list.includes(value)"
       >
         {{ placeholder }}
       </option>
@@ -28,12 +32,10 @@
         v-for="item in list"
         :key="item"
         :value="item"
-        :selected="item === currentValue"
+        :selected="item === value"
+        :disabled="!filtersCount[item]"
       >
-        {{ item }}
-      </option>
-      <option value="">
-        Clear
+        {{ item }} - {{filtersCount[item] || 0 }}
       </option>
     </select>
   </div>
@@ -51,6 +53,14 @@ export default {
       type: String,
       default: '',
     },
+    value: {
+      type: String,
+      default: '',
+    },
+    filtersCount: {
+      type: Object,
+      default: () => ({})
+    },
     placeholder: {
       type: String,
       default: '',
@@ -58,10 +68,6 @@ export default {
     list: {
       type: Array,
       default: () => ([])
-    },
-    currentValue: {
-      type: String,
-      default: ''
     },
   },
   methods: {

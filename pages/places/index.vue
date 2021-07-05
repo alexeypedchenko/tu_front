@@ -5,6 +5,7 @@
     :filters="getFilters"
     :filterList="getFilterList"
     storeName="markers"
+    @details-item="detailsItem"
   />
 </template>
 
@@ -32,5 +33,10 @@ export default {
       'getFilterList',
     ]),
   },
+  methods: {
+    detailsItem(item) {
+      console.log('item:', item)
+    }
+  }
 }
 </script>

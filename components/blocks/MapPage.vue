@@ -9,6 +9,7 @@
           :storeName="storeName"
           :filters="filters"
           :filterList="filterList"
+          :items="items"
         />
       </div>
       <div class="map-page__items">
@@ -17,6 +18,7 @@
           :key="item.id"
           :index="index"
           :item="item"
+          @details-item="detailsItem"
         />
       </div>
     </div>
@@ -63,6 +65,11 @@ export default {
     MapPreview,
     GoogleMap,
   },
+  methods: {
+    detailsItem(item) {
+      this.$emit('details-item', item)
+    }
+  }
 }
 </script>
 

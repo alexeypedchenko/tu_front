@@ -16,11 +16,13 @@
     <div class="fltr__list">
       <!-- Имя инпута должно совпадать с названием фильтра и полем фильтруемого оъекта -->
       <fltr-item
-        v-for="[key, value] in Object.entries(filters)"
+        v-for="[key, value] in Object.entries(filterList)"
         :key="key"
         :list="value"
         :currentValue="key"
         :name="key"
+        :filtersCount="getFiltersCount"
+        :value="filters[key]"
         :title="$store.state.lang.filters[key]"
         :placeholder="$store.state.lang.filters[key]"
         @change="filterItemChange"
@@ -32,8 +34,6 @@
       :value="filters.name"
       @input="filterItemChange"
     />
-
-    <pre>{{filterList}}</pre>
   </div>
 </template>
 
@@ -47,6 +47,10 @@ export default {
     storeName: {
       type: String,
       default: '',
+    },
+    items: {
+      type: Array,
+      default: () => ([]),
     },
     filters: {
       type: Object,
@@ -64,6 +68,24 @@ export default {
   data() {
     return {
       hasFilters: false,
+    }
+  },
+  computed: {
+    getFiltersCount() {
+      const filtersCount = {}
+      this.items.forEach((item) => {
+        for(const filter of Object.keys(this.filters)) {
+          if(filter === 'name') continue
+
+          this.filterList[filter].forEach(el => {
+            filtersCount[el] = filtersCount[el] || 0
+            if (item[filter].includes(el)) {
+              filtersCount[el]++
+            }
+          });
+        }
+      })
+      return filtersCount
     }
   },
   methods: {

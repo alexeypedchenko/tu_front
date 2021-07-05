@@ -58,13 +58,13 @@ export const getters = {
       return condition
     })
   },
-  getFilterList(state) {
+  getFilters(state) {
     return state.filters
   },
-  getFilters(state) {
+  getFilterList(state) {
     const markers = state.list
     const filterTypes = Object.keys(state.filters)
-    const filters = {}
+    const filterList = {}
 
     for(const key of filterTypes) {
       if (key === 'name') {
@@ -73,17 +73,17 @@ export const getters = {
 
       switch (typeof markers[0][key]) {
         case 'string':
-          filters[key] = getUniqueCollection(markers, key)
+          filterList[key] = getUniqueCollection(markers, key)
           break
         case 'object':
-          filters[key] = getUniqueCollection(markers, key, IS_ARRAY)
+          filterList[key] = getUniqueCollection(markers, key, IS_ARRAY)
           break
         default:
           break
       }
     }
 
-    return filters
+    return filterList
   },
 }
 
