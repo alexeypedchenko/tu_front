@@ -1,7 +1,10 @@
 <template>
   <map-page
     v-if="dataLoaded"
-    :items="filtredPlaces"
+    :items="filtredMarkers"
+    :filters="getFilters"
+    :filterList="getFilterList"
+    storeName="markers"
   />
 </template>
 
@@ -11,21 +14,22 @@ import MapPage from '~/components/blocks/MapPage'
 
 export default {
   async fetch ({store}) {
-    const {dataLoaded} = store.state.places
+    const {dataLoaded} = store.state.markers
     if (!dataLoaded) {
-      await store.dispatch('places/getCollection')
+      await store.dispatch('markers/getCollection')
     }
   },
   components: {
     MapPage,
   },
   computed: {
-    ...mapState('places', [
+    ...mapState('markers', [
       'dataLoaded',
-      'list'
     ]),
-    ...mapGetters('places', [
-      'filtredPlaces',
+    ...mapGetters('markers', [
+      'filtredMarkers',
+      'getFilters',
+      'getFilterList',
     ]),
   },
 }

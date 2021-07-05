@@ -13,6 +13,7 @@ export const getCollection = async (collection) => {
         querySnapshot.forEach((doc) => {
           if (!doc.exists) return []
           const item = doc.data()
+          if (item.hasOwnProperty('public') && !item.public) {return}
           item._id = doc.id
           items.push(item)
           res(items)

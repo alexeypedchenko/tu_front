@@ -116,8 +116,8 @@ export class GoogleMap {
       this.markers.push(marker)
       // добавляем новую позицию маркера для центрирования карты
       this.bounds.extend({
-        lat: +item.marker.coordinates.lat,
-        lng: +item.marker.coordinates.lng,
+        lat: +item.coordinates.lat,
+        lng: +item.coordinates.lng,
       })
       // создаем модальное окно маркера
       this.createInfoWindow(marker, item)
@@ -136,23 +136,23 @@ export class GoogleMap {
     // this.setWaypointsToDirections(this.markers)
   }
 
-  createMarker(data, onMap = false) {
+  createMarker(marker, onMap = false) {
     const options = {
       position: {
-        lat: +data.marker.coordinates.lat,
-        lng: +data.marker.coordinates.lng,
+        lat: +marker.coordinates.lat,
+        lng: +marker.coordinates.lng,
       },
       zIndex: 10,
       // https://developers.google.com/maps/documentation/javascript/reference/marker#Icon
       icon: {
-        url: this.pin || data.marker.icon,
+        url: this.pin || marker.icon,
         size: new google.maps.Size(30, 30),
         // если изображение меньше или больше 30px, масштабируем до 30
         scaledSize: new google.maps.Size(30, 30),
       },
       // https://developers.google.com/maps/documentation/javascript/reference/marker#MarkerLabel
       // label: {
-      //   text: data.name,
+      //   text: marker.name,
       //   color: 'black',
       //   fontFamily: 'Arial',
       //   fontSize: '16',

@@ -5,7 +5,11 @@
         v-if="showFilter"
         class="map-page__filter"
       >
-        <app-fltr />
+        <app-fltr
+          :storeName="storeName"
+          :filters="filters"
+          :filterList="filterList"
+        />
       </div>
       <div class="map-page__items">
         <map-preview
@@ -33,6 +37,10 @@ import GoogleMap from '~/components/google/GoogleMap'
 export default {
   name: 'MapPage',
   props: {
+    storeName: {
+      type: String,
+      default: '',
+    },
     showFilter: {
       type: Boolean,
       default: true,
@@ -41,20 +49,20 @@ export default {
       type: Array,
       default: () => ([]),
     },
+    filters: {
+      type: Object,
+      default: () => ({}),
+    },
+    filterList: {
+      type: Object,
+      default: () => ({}),
+    },
   },
   components: {
     AppFltr: Fltr,
     MapPreview,
     GoogleMap,
   },
-  beforeMount() {
-    console.log('beforeMount:')
-    // set header sm
-  },
-  beforeDestroy() {
-    console.log('beforeDestroy:')
-    // remove header sm
-  }
 }
 </script>
 
@@ -65,8 +73,8 @@ export default {
 }
 .map-page__content {
   padding: 20px;
-  min-width: 500px;
-  width: 500px;
+  min-width: 700px;
+  width: 700px;
   height: 100%;
   padding: 20px;
   display: flex;
