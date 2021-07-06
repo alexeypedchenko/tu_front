@@ -42,16 +42,26 @@ export const getters = {
         if (name === 'name') {
           value = value.toLowerCase().trim()
           prop = prop.toLowerCase().trim()
+
+          if (value && !prop.includes(value)) {
+            condition = false
+            break
+          }
+
+          break
         }
 
         // 3. - если значение фильтра не пустое и объект 'place' по ключу фильтра не имеет вхождений
         // значит условие не соответствует => исключаем объект из фильтра.
-        if (value && !prop.includes(value)) {
+        if (
+          (value && typeof prop === 'string' && prop !== value)
+          || (value && typeof prop === 'object' && !prop.includes(value))
+        ) {
           condition = false
           break
         }
 
-        // 3. - примечание!
+        // 4. - примечание!
         // Объект 'place' обязательно должен иметь такие же ключи как и в фильтре.
       }
 

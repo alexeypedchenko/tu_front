@@ -79,7 +79,6 @@ export default {
     },
     handleDetails() {
       this.$emit('details-item', this.item)
-      // this.$router.push(`/places/${this.item._id}`)
     },
     showOnMap(index) {
       this.$store.commit('map/openInfoWindow', index)

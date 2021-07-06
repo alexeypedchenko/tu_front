@@ -1,11 +1,18 @@
 <template>
-  <div class="fltr__item">
-    <div class="fltr__item-head">
+  <div
+    ref="fltr"
+    class="fltr__item"
+    :class="{'fltr__item--opened' : opened}"
+  >
+    <div
+      class="fltr__item-head"
+      @click="toggle"
+    >
       <span
         v-if="title"
         class="fltr__item-title"
       >
-        {{ title }}
+        {{ value || title }}
       </span>
       <button
         v-if="value"
@@ -16,6 +23,17 @@
       </button>
     </div>
 
+    <div class="fltr__item-list">
+      <li
+        v-for="item in list"
+        :key="item"
+        @click="selectItem(item)"
+      >
+        {{ item }} - {{filtersCount[item] || 0 }}
+      </li>
+    </div>
+
+    <!--
     <select
       :name="name"
       @change="change"
@@ -38,6 +56,7 @@
         {{ item }} - {{filtersCount[item] || 0 }}
       </option>
     </select>
+    -->
   </div>
 </template>
 
@@ -70,13 +89,23 @@ export default {
       default: () => ([])
     },
   },
+  data() {
+    return {
+      opened: false,
+    }
+  },
+  mounted() {
+    document.addEventListener('click', this.closeList)
+  },
   methods: {
-    change(event) {
+    selectItem(item) {
+      console.log('item:', item)
       const props = {
         name: this.name,
-        value: event.target.value
+        value: item
       }
       this.$emit('change', props)
+      this.close()
     },
     clear() {
       const props = {
@@ -84,6 +113,24 @@ export default {
         value: '',
       }
       this.$emit('change', props)
+    },
+    toggle() {
+      this.opened = !this.opened
+    },
+    open() {
+      this.opened = true
+    },
+    close() {
+      this.opened = false
+    },
+    closeList(event) {
+      const {target} = event
+      const {fltr} = this.$refs
+      const fltrItem = target.closest('.fltr__item')
+      if (fltrItem && fltrItem === fltr) {
+      } else {
+        this.close()
+      }
     }
   }
 }
@@ -93,11 +140,10 @@ export default {
 .fltr__item {
   position: relative;
   width: 100%;
-  padding: 10px;
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  border: 1px solid #000;
+  // border: 1px solid #000;
   select {
     padding: 5px 10px;
     cursor: pointer;
@@ -110,7 +156,8 @@ export default {
   flex-wrap: wrap;
   align-items: center;
   justify-content: space-between;
-  margin-bottom: 10px;
+  border: 1px solid blue;
+  padding: 10px;
 }
 .fltr__item-clear {
   padding: 5px;
@@ -120,5 +167,38 @@ export default {
 }
 .fltr__item-title {
   margin-right: 10px;
+}
+.fltr__item-list {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  background: #fff;
+  min-width: 100%;
+  width: max-content;
+  border: 1px solid blue;
+  padding: 5px - 0;
+  list-style-type: none;
+  z-index: 1;
+
+  opacity: 0;
+  transform: translate(0, 10px);
+  pointer-events: none;
+  transition: 0.3s;
+
+
+  li {
+    white-space: nowrap;
+    padding: 5px 10px;
+    &:hover {
+      background: #eee;
+    }
+  }
+}
+.fltr__item--opened {
+  .fltr__item-list {
+    opacity: 1;
+    pointer-events: all;
+    transform: translate(0, -1px);
+  }
 }
 </style>

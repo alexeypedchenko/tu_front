@@ -33,6 +33,7 @@
       name="name"
       :value="filters.name"
       @input="filterItemChange"
+      :items="items"
     />
   </div>
 </template>
@@ -79,8 +80,17 @@ export default {
 
           this.filterList[filter].forEach(el => {
             filtersCount[el] = filtersCount[el] || 0
-            if (item[filter].includes(el)) {
-              filtersCount[el]++
+            switch (typeof item[filter]) {
+              case 'string':
+                if (item[filter] === el)
+                  filtersCount[el]++
+                break
+              case 'object':
+                if (item[filter].includes(el))
+                  filtersCount[el]++
+                break
+              default:
+                break
             }
           });
         }
