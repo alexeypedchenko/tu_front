@@ -86,16 +86,12 @@ export default {
   padding: 20px;
   display: flex;
   flex-direction: column;
+  overflow: auto;
 }
 .map-page__filter {
   margin-bottom: 20px;
 }
-.map-page__items {
-  overflow: auto;
-  flex-grow: 1;
-  padding: 20px;
-  border: 1px solid #000;
-}
+.map-page__items {}
 .map-page__map {
   width: 100%;
   height: 100%;

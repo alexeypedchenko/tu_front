@@ -31,6 +31,7 @@ export default {
     return {
       map: null,
       pin: '/icons/pin.svg',
+      prewInfoWinfow: null,
     }
   },
   watch: {
@@ -40,6 +41,12 @@ export default {
       }
     },
     triggerInfoWindow() {
+      if (this.prewInfoWinfow === this.activeInfoWindow) {
+        this.prewInfoWinfow = null
+        this.map.centeredMap()
+      } else {
+        this.prewInfoWinfow = this.activeInfoWindow
+      }
       this.handleMarker(this.activeInfoWindow)
     },
     hoveredMarker(afterData, beforeData) {

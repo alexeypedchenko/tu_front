@@ -37,28 +37,24 @@ export const getters = {
 
         let prop = place[name]
 
-        // 2. - Фильтр поиска имеет ключ 'name'
+        // 2. - если значение фильтра не пустое и объект 'place' по ключу фильтра не имеет вхождений
+        // значит условие не соответствует => исключаем объект из фильтра.
+        if (
+          (name !== 'name' && typeof prop === 'string' && prop !== value)
+          || (name !== 'name' && typeof prop === 'object' && !prop.includes(value))
+        ) {
+          condition = false
+        }
+
+        // 3. - Фильтр поиска имеет ключ 'name'
         // приводим поле поиска и поля обьекта к нижнему регистру
         if (name === 'name') {
           value = value.toLowerCase().trim()
           prop = prop.toLowerCase().trim()
 
-          if (value && !prop.includes(value)) {
+          if (!prop.includes(value)) {
             condition = false
-            break
           }
-
-          break
-        }
-
-        // 3. - если значение фильтра не пустое и объект 'place' по ключу фильтра не имеет вхождений
-        // значит условие не соответствует => исключаем объект из фильтра.
-        if (
-          (value && typeof prop === 'string' && prop !== value)
-          || (value && typeof prop === 'object' && !prop.includes(value))
-        ) {
-          condition = false
-          break
         }
 
         // 4. - примечание!

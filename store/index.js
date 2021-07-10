@@ -1,7 +1,7 @@
 export const state = () => ({
   lang: {
     filters: {
-      name: 'Введите название места',
+      name: 'Название места',
       town: 'Город',
       region: 'Регион',
       tags: 'Теги',

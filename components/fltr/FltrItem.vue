@@ -143,7 +143,6 @@ export default {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  // border: 1px solid #000;
   select {
     padding: 5px 10px;
     cursor: pointer;
@@ -156,7 +155,7 @@ export default {
   flex-wrap: wrap;
   align-items: center;
   justify-content: space-between;
-  border: 1px solid blue;
+  border: 1px solid #000;
   padding: 10px;
 }
 .fltr__item-clear {
@@ -175,7 +174,7 @@ export default {
   background: #fff;
   min-width: 100%;
   width: max-content;
-  border: 1px solid blue;
+  border: 1px solid #000;
   padding: 5px - 0;
   list-style-type: none;
   z-index: 1;

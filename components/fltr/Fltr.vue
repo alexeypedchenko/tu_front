@@ -1,17 +1,25 @@
 <template>
   <div class="fltr">
     <div class="fltr__head">
-      <div class="fltr__name">
-        Filter
+      <div class="fltr__title">
+        Открывай для себя больше новых мест!
       </div>
       <button
         v-if="hasFilters"
         class="fltr__clear"
         @click="clearFilters"
       >
-        clear all filters
+        Очистить все фильтры
       </button>
     </div>
+
+    <search-fltr
+      name="name"
+      :value="filters.name"
+      @input="filterItemChange"
+      :items="items"
+      placeholder="Водопад, гора, лиман, парк ..."
+    />
 
     <div class="fltr__list">
       <!-- Имя инпута должно совпадать с названием фильтра и полем фильтруемого оъекта -->
@@ -29,12 +37,23 @@
       />
     </div>
 
-    <search-fltr
-      name="name"
-      :value="filters.name"
-      @input="filterItemChange"
-      :items="items"
-    />
+    <div
+      v-if="hasFilters"
+      class="fltr__footer"
+    >
+      <!-- <b>Вы искали:</b>
+      <span
+        v-for="(item, index) of Object.values(filters).filter(el => !!el)"
+        :key="item"
+      >
+        <template v-if="index !== 0">
+          •
+        </template>
+        {{ item }}
+      </span>
+      <br> -->
+      <b>Найдено:</b> {{ items.length }} мест.
+    </div>
   </div>
 </template>
 
@@ -96,7 +115,7 @@ export default {
         }
       })
       return filtersCount
-    }
+    },
   },
   methods: {
     filterItemChange(props) {
@@ -122,27 +141,40 @@ export default {
 
 <style lang="scss">
 .fltr {
-  border: 1px solid #000;
-  padding: 10px;
   position: relative;
+  .search-fltr {
+    margin-bottom: 20px;
+  }
 }
 .fltr__head {
   display: flex;
   align-items: center;
   justify-content: space-between;
+}
+.fltr__title {
   margin-bottom: 20px;
+  font-size: 18px;
 }
 .fltr__clear {
   position: absolute;
-  top: 10px;
-  right: 10px;
+  top: 0;
+  right: 0;
+  z-index: 1;
   padding: 5px 15px;
 }
 .fltr__list {
   display: flex;
-  margin-bottom: 20px;
-  & > *:not(:last-child) {
-    margin-right: 20px;
+  flex-wrap: wrap;
+  margin-bottom: -15px;
+  .fltr__item {
+    width: calc(50% - 10px);
+    margin-bottom: 20px;
+    &:nth-child(odd) {
+      margin-right: 20px;
+    }
   }
+}
+.fltr__footer {
+  font-size: 14px;
 }
 </style>
