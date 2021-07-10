@@ -1,4 +1,5 @@
 export const state = () => ({
+  smallHeaer: false,
   lang: {
     filters: {
       name: 'Название места',
@@ -11,6 +12,9 @@ export const state = () => ({
 })
 
 export const mutations = {
+  smallHeader(state, prop) {
+    state.smallHeaer = prop
+  },
   mutate(state, payload) {
     state[payload.prop] = payload.value
   },

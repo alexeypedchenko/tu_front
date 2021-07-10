@@ -2,7 +2,7 @@
   <div class="fltr">
     <div class="fltr__head">
       <div class="fltr__title">
-        Открывай для себя больше новых мест!
+        Открой для себя больше новых мест!
       </div>
       <button
         v-if="hasFilters"
@@ -143,7 +143,7 @@ export default {
 .fltr {
   position: relative;
   .search-fltr {
-    margin-bottom: 20px;
+    margin-bottom: 8px;
   }
 }
 .fltr__head {
@@ -165,12 +165,12 @@ export default {
 .fltr__list {
   display: flex;
   flex-wrap: wrap;
-  margin-bottom: -15px;
+  margin-bottom: 8px;
   .fltr__item {
-    width: calc(50% - 10px);
-    margin-bottom: 20px;
+    width: calc(50% - 4px);
+    margin-bottom: 8px;
     &:nth-child(odd) {
-      margin-right: 20px;
+      margin-right: 8px;
     }
   }
 }

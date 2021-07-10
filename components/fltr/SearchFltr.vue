@@ -139,15 +139,13 @@ export default {
   width: 100%;
   position: relative;
   input {
-    padding: 10px;
+    padding: 12px 10px;
+    line-height: 1.4;
     width: 100%;
     padding-left: 35px;
-    border: 1px solid #000;
-    font-size: 18px;
-
-    &::placeholder {
-      color: #ccc;
-    }
+    background: $gray-cl;
+    border-radius: 2px;
+    font-size: 14px;
   }
   img {
     width: 15px;

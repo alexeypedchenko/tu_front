@@ -155,8 +155,16 @@ export default {
   flex-wrap: wrap;
   align-items: center;
   justify-content: space-between;
-  border: 1px solid #000;
-  padding: 10px;
+  border-radius: 2px;
+  font-size: 14px;
+  padding: 12px 10px;
+  cursor: pointer;
+
+  transition: 0.2s;
+  background: $gray-cl;
+  &:hover {
+    background: $gray-hover-cl;
+  }
 }
 .fltr__item-clear {
   padding: 5px;
@@ -178,9 +186,10 @@ export default {
   padding: 5px - 0;
   list-style-type: none;
   z-index: 1;
+  font-size: 14px;
 
   opacity: 0;
-  transform: translate(0, 10px);
+  transform: translate(0, 0);
   pointer-events: none;
   transition: 0.3s;
 

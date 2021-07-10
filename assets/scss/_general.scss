@@ -27,6 +27,7 @@ textarea {
 
   &::placeholder {
     font-family: $font-family;
+    color: $placeholder-cl;
   }
 }
 

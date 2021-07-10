@@ -1,15 +1,13 @@
 <template>
   <div class="header">
-    <div class="container">
-      <app-navbar />
+    <app-navbar />
 
-      <button
-        v-if="user"
-        @click="logout"
-      >
-        logout
-      </button>
-    </div>
+    <button
+      v-if="user"
+      @click="logout"
+    >
+      logout
+    </button>
   </div>
 </template>
 
@@ -55,9 +53,14 @@ export default {
   height: 60px;
   display: flex;
   align-items: center;
+  justify-content: space-between;
+  padding: 20px;
   .container {
     display: flex;
     justify-content: space-between;
   }
+}
+.header--sm {
+  width: $container-sm;
 }
 </style>

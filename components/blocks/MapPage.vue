@@ -1,6 +1,7 @@
 <template>
   <div class="map-page">
     <div class="map-page__content">
+      <header-small-header/>
       <div
         v-if="showFilter"
         class="map-page__filter"
@@ -65,6 +66,12 @@ export default {
     MapPreview,
     GoogleMap,
   },
+  beforeMount() {
+    this.$store.commit('smallHeader', true)
+  },
+  beforeDestroy() {
+    this.$store.commit('smallHeader', false)
+  },
   methods: {
     detailsItem(item) {
       this.$emit('details-item', item)
@@ -76,12 +83,11 @@ export default {
 <style lang="scss">
 .map-page {
   display: flex;
-  height: calc(100vh - 60px);
+  height: 100vh;
 }
 .map-page__content {
-  padding: 20px;
-  min-width: 700px;
-  width: 700px;
+  height: 100%;
+  width: $container-sm;
   height: 100%;
   padding: 20px;
   display: flex;
@@ -91,9 +97,8 @@ export default {
 .map-page__filter {
   margin-bottom: 20px;
 }
-.map-page__items {}
 .map-page__map {
-  width: 100%;
+  width: calc(100% - #{$container-sm});
   height: 100%;
 }
 </style>

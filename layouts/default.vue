@@ -1,6 +1,6 @@
 <template>
   <div class="main-wrapper">
-    <app-header />
+    <app-header v-if="!$store.state.smallHeaer" />
 
     <main class="main">
       <Nuxt />
@@ -25,20 +25,4 @@ export default {
 </script>
 
 <style lang="scss">
-.main {
-  padding-top: 60px;
-  flex-grow: 1;
-}
-.footer {
-  display: none;
-  padding: 20px 0;
-  text-align: center;
-  border-top: 1px solid #000;
-  font-size: 12px;
-}
-.main-wrapper {
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-}
 </style>
