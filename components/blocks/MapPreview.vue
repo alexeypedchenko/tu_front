@@ -1,56 +1,67 @@
 <template>
   <div
     class="map-preview"
-    @mouseover="handleOver"
-    @mouseout="handleOut"
+    :class="{'map-preview--active' : index === hoveredMarkerIndex}"
+    @mouseenter="handleEnter"
+    @mouseleave="handleLeave"
   >
-    <div class="map-preview__head">
-      <div
-        v-if="item.tags"
-        class="map-preview__tags"
-      >
+    <img
+      class="map-preview__img"
+      :src="item.image"
+      :alt="item.name"
+    >
+    <div class="map-preview__content">
+      <div class="map-preview__head">
         <div
-          v-for="tag in item.tags"
-          :key="tag"
-          class="map-preview__tag"
+          v-if="item.tags"
+          class="map-preview__tags"
         >
-          {{ tag }}
+          <div
+            v-for="tag in item.tags"
+            :key="tag"
+            class="map-preview__tag"
+          >
+            {{ tag }}
+          </div>
+        </div>
+        <div class="map-preview__actions">
+          <button @click="handleRoute">
+            to route
+          </button>
         </div>
       </div>
-      <div class="map-preview__actions">
-        <button @click="handleRoute">
-          to route
+
+      <div class="map-preview__body">
+        <div
+          v-if="item.name"
+          class="map-preview__name"
+        >
+          {{ item.name }}
+        </div>
+        <div
+          v-if="item.description"
+          class="map-preview__description"
+        >
+          {{ item.description }}
+        </div>
+      </div>
+
+      <div class="map-preview__footer">
+        <button @click="handleDetails">
+          Details ->
+        </button>
+        <button @click="showOnMap(index)">
+          Show on map ()
         </button>
       </div>
-    </div>
-
-    <div class="map-preview__body">
-      <div
-        v-if="item.name"
-        class="map-preview__name"
-      >
-        {{ item.name }}
-      </div>
-      <div
-        v-if="item.description"
-        class="map-preview__description"
-      >
-        {{ item.description }}
-      </div>
-    </div>
-
-    <div class="map-preview__footer">
-      <button @click="handleDetails">
-        Details ->
-      </button>
-      <button @click="showOnMap(index)">
-        Show on map ()
-      </button>
     </div>
   </div>
 </template>
 
 <script>
+import {mapState} from 'vuex'
+import {mapGetters} from 'vuex'
+
 export default {
   name: 'MapPreview',
   props: {
@@ -63,15 +74,9 @@ export default {
       default: () => ({})
     },
   },
-  data() {
-    return {
-      description: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptates quis quibusdam, repellendus unde totam laboriosam odio dolorum itaque doloremque temporibus!',
-    }
-  },
   computed: {
-    hasInFavorites() {
-      return this.$store.state[this.item.type + 's'].favorites.includes(this.item)
-    },
+    ...mapState('map', ['hoveredMarkerIndex']),
+    ...mapGetters('map', ['isMapInit']),
   },
   methods: {
     handleRoute() {
@@ -81,12 +86,15 @@ export default {
       this.$emit('details-item', this.item)
     },
     showOnMap(index) {
+      if (!this.isMapInit) return
       this.$store.commit('map/openInfoWindow', index)
     },
-    handleOver() {
+    handleEnter() {
+      if (!this.isMapInit) return
       this.$store.commit('map/showHoveredMarker', this.item)
     },
-    handleOut() {
+    handleLeave() {
+      if (!this.isMapInit) return
       this.$store.commit('map/showHoveredMarker', null)
     },
   }
@@ -95,12 +103,22 @@ export default {
 
 <style lang="scss">
 .map-preview {
-  border: 1px solid #000;
-  min-height: 200px;
-  padding: 20px;
+  border-radius: 2px;
+  overflow: hidden;
+  box-shadow: 0 5px 15px 0 rgba(#000, 0.1);
   &:not(:last-child) {
     margin-bottom: 20px;
   }
+}
+.map-preview__img {
+  height: 200px;
+  width: 100%;
+  object-fit: cover;
+  display: block;
+}
+.map-preview__content {
+  // min-height: 200px;
+  padding: 20px;
 }
 .map-preview__head {
   display: flex;
@@ -145,5 +163,10 @@ export default {
       margin-right: 10px;
     }
   }
+}
+
+.map-preview:hover,
+.map-preview--active {
+  background: #f6f7fa;
 }
 </style>

@@ -1,5 +1,7 @@
 <template>
   <div class="header">
+    <header-logo />
+
     <app-navbar />
 
     <button
@@ -50,7 +52,6 @@ export default {
   top: 0;
   left: 0;
   width: 100%;
-  height: 60px;
   display: flex;
   align-items: center;
   justify-content: space-between;

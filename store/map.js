@@ -1,8 +1,16 @@
 export const state = () => ({
+  init: false,
   activeInfoWindow: null,
   triggerInfoWindow: false,
   hoveredMarker: null,
+  hoveredMarkerIndex: null,
 })
+
+export const getters = {
+  isMapInit(state) {
+    return state.init
+  }
+}
 
 export const mutations = {
   openInfoWindow(state, index) {
@@ -11,5 +19,14 @@ export const mutations = {
   },
   showHoveredMarker(state, data) {
     state.hoveredMarker = data
-  }
+  },
+  setHoveredMarkerIndex(state, index) {
+    state.hoveredMarkerIndex = index
+  },
+  mapInit(state) {
+    state.init = true
+  },
+  mapDestroy(state) {
+    state.init = false
+  },
 }

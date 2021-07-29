@@ -40,7 +40,7 @@ export default {
         this.map.setMarkers(this.items)
       }
     },
-    triggerInfoWindow() {
+    triggerInfoWindow(afterData, beforeData) {
       if (this.prewInfoWinfow === this.activeInfoWindow) {
         this.prewInfoWinfow = null
         this.map.centeredMap()
@@ -55,13 +55,17 @@ export default {
       } else {
         this.map.removeLastMarker()
       }
-    }
+    },
+    'map.hoveredMarkerIndex'(afterData, beforeData) {
+      this.$store.commit('map/setHoveredMarkerIndex', afterData)
+    },
   },
   mounted() {
     this.map = new GoogleMap('.google-map__container', this.pin)
     this.map
       .init()
       .then(() => {
+        this.$store.commit('map/mapInit')
         this.map.setMarkers(this.items)
       })
   },

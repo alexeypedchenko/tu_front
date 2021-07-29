@@ -1,6 +1,9 @@
 <template>
   <div class="map-page">
-    <div class="map-page__content">
+    <div
+      ref="content"
+      class="map-page__content"
+    >
       <header-small-header/>
       <div
         v-if="showFilter"
@@ -20,6 +23,7 @@
           :index="index"
           :item="item"
           @details-item="detailsItem"
+          ref="mapPreview"
         />
       </div>
     </div>
@@ -33,6 +37,7 @@
 </template>
 
 <script>
+import {mapState} from 'vuex'
 import Fltr from '~/components/fltr/Fltr'
 import MapPreview from '~/components/blocks/MapPreview'
 import GoogleMap from '~/components/google/GoogleMap'
@@ -66,17 +71,35 @@ export default {
     MapPreview,
     GoogleMap,
   },
-  beforeMount() {
-    this.$store.commit('smallHeader', true)
+  computed: {
+    ...mapState('map', ['hoveredMarkerIndex']),
   },
-  beforeDestroy() {
-    this.$store.commit('smallHeader', false)
+  watch: {
+    hoveredMarkerIndex(data) {
+      if (data === null) return
+      const {
+        content,
+        mapPreview,
+      } = this.$refs
+      const item = mapPreview[data].$el
+      content.scrollTo({
+        top: item.offsetTop - 50,
+        behavior: 'smooth'
+      })
+    },
   },
   methods: {
     detailsItem(item) {
       this.$emit('details-item', item)
     }
-  }
+  },
+  beforeMount() {
+    this.$store.commit('smallHeader', true)
+  },
+  beforeDestroy() {
+    this.$store.commit('smallHeader', false)
+    this.$store.commit('map/mapDestroy')
+  },
 }
 </script>
 
@@ -86,6 +109,7 @@ export default {
   height: 100vh;
 }
 .map-page__content {
+  position: relative;
   height: 100%;
   width: $container-sm;
   height: 100%;

@@ -1,9 +1,14 @@
 import { Loader } from '@googlemaps/js-api-loader'
 import MarkerClusterer from '@googlemaps/markerclustererplus'
+
 import {
   MAP_STYLES_DARK,
   MAP_STYLES_WHITE,
 } from './GoogleMapStyles'
+
+import {
+  infoWindowTemplate
+} from './utils'
 
 export class GoogleMap {
   constructor(selector, pin) {
@@ -46,6 +51,8 @@ export class GoogleMap {
 
     this.directionsService = null
     this.directionsRenderer = null
+
+    this.hoveredMarkerIndex = null
   }
 
   initDirections() {
@@ -133,10 +140,12 @@ export class GoogleMap {
     })
 
     this.centeredMap()
+
+    // отрисовать маршрут
     // this.setWaypointsToDirections(this.markers)
   }
 
-  createMarker(marker, onMap = false) {
+  createMarker(marker, showOnMap = false) {
     const options = {
       position: {
         lat: +marker.coordinates.lat,
@@ -145,7 +154,7 @@ export class GoogleMap {
       zIndex: 10,
       // https://developers.google.com/maps/documentation/javascript/reference/marker#Icon
       icon: {
-        url: this.pin || marker.icon,
+        url: marker.icon || this.pin,
         size: new google.maps.Size(30, 30),
         // если изображение меньше или больше 30px, масштабируем до 30
         scaledSize: new google.maps.Size(30, 30),
@@ -160,16 +169,21 @@ export class GoogleMap {
       //   className: 'custom-label-class',
       // },
     }
-    if (onMap) {
+
+    if (showOnMap) {
       options.map = this.map
     }
-    return new google.maps.Marker(options)
+
+    const newMarker = new google.maps.Marker(options)
+
+    return newMarker
   }
 
   handleCreateMarker(data) {
-    const marker = this.createMarker(data, true)
+    const showOnMap = true
+    const marker = this.createMarker(data, showOnMap)
     this.markers.push(marker)
-    this.showCircle(marker)
+    this.circle.show(marker)
   }
 
   removeMarker(index) {
@@ -178,7 +192,7 @@ export class GoogleMap {
 
   removeLastMarker() {
     this.markers[this.markers.length - 1].setMap(null)
-    this.hideCircle()
+    this.circle.hide()
   }
 
   centeredMap() {
@@ -209,13 +223,13 @@ export class GoogleMap {
 
   createInfoWindow(marker, markerData) {
     // добавляем модальное окно
-    const modalTemplate = this.getInfoWindowTemplate(markerData) // шаблон модального окна карты в строковом формате
+    const modalTemplate = infoWindowTemplate(markerData) // шаблон модального окна карты в строковом формате
     const infoWindow = new google.maps.InfoWindow({
       content: modalTemplate
     })
 
     this.openInfoWindowOnMarkerClick(marker, infoWindow)
-  
+
     // при клике на карту закрываем все модальные окна
     this.map.addListener('click', () => {
       infoWindow.close(this.map, marker)
@@ -227,6 +241,7 @@ export class GoogleMap {
     marker.addListener('click', () => {
       if(infoWindow.getMap()) {
         infoWindow.close(this.map, marker)
+        this.centeredMap()
       } else {
         // имитация клика по карте для закрытия всех infoWindow
         google.maps.event.trigger(this.map, 'click')
@@ -244,13 +259,16 @@ export class GoogleMap {
   }
 
   markerOnMouseover(marker, item) {
+    const index = this.markers.findIndex((el) => el === marker)
     marker.addListener('mouseover', () => {
-      this.showCircle(marker)
+      this.hoveredMarkerIndex = index
+      this.circle.show(marker)
     })
   }
   markerOnMouseout(marker) {
     marker.addListener('mouseout', () => {
-      this.hideCircle()
+      this.circle.hide()
+      this.hoveredMarkerIndex = null
     })
   }
 
@@ -281,37 +299,31 @@ export class GoogleMap {
     google.maps.event.trigger(this.markers[index], 'mouseover')
   }
 
-  // handleMarkerMouseout(index) {
-  //   google.maps.event.trigger(this.markers[index], 'mouseout')
-  // }
-
-  getInfoWindowTemplate(data) {
-    return `
-      <div class="map-window">
-        <a>
-          <!-- href="{item.link}" -->
-          <div class="map-window-img">
-            <img src="${data.markerImg}" alt="${data.name}">
-          </div>
-          <div class="map-window-content">
-            <div class="map-window-text">
-              <h2 class="map-window-title h5">
-                ${data.name}
-              </h2>
-              <p class="map-window-description p2">
-                <span>
-                  ${data.shortdescription}
-                <span/>
-              </p>
-            </div>
-          </div>
-        </a>
-      </div>
-    `
+  handleMarkerMouseout(index) {
+    google.maps.event.trigger(this.markers[index], 'mouseout')
   }
 
-  createCircle() {
-    return new google.maps.Marker({
+  init() {
+    return new Promise((resolve, reject) => {
+      this.loader
+        .load()
+        .then(() => {
+          this.map = new google.maps.Map(this.mapContainer, this.mapOptions)
+          this.initDirections()
+          this.circle = new Circle(this.map)
+          return resolve()
+        })
+        .catch((error) => {
+          console.log('GoogleMap init error:', error)
+          return reject()
+        })
+    })
+  }
+}
+
+class Circle {
+  constructor(map) {
+    this.options = {
       zIndex: 2,
       visible: false,
       position: {
@@ -329,34 +341,20 @@ export class GoogleMap {
         anchor: new google.maps.Point(0, 0.8),
         zIndex: 2
       },
-      map: this.map
-    })
+      map: map
+    }
+
+    this.circle = new google.maps.Marker(this.options)
   }
 
-  showCircle(marker) {
+  show(marker) {
     const position = marker.getPosition()
     this.circle.setPosition(position)
     this.circle.setVisible(true)
   }
 
-  hideCircle() {
+  hide() {
     this.circle.setVisible(false)
   }
-
-  init() {
-    return new Promise((resolve, reject) => {
-      this.loader
-        .load()
-        .then(() => {
-          this.map = new google.maps.Map(this.mapContainer, this.mapOptions)
-          this.initDirections()
-          this.circle = this.createCircle()
-          return resolve()
-        })
-        .catch((error) => {
-          console.log('GoogleMap init error:', error)
-          return reject()
-        })
-    })
-  }
 }
+
