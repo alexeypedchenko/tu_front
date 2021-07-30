@@ -1,0 +1,13 @@
+.btn {
+  padding: 10px 20px;
+  border: 1px solid $main-cl;
+  background: $main-cl;
+  font-size: 12px;
+  text-transform: uppercase;
+  border-radius: 20px;
+  transition: 0.3s;
+  color: #000;
+  &:hover {
+    background: darken($main-cl, 10);
+  }
+}

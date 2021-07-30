@@ -1,5 +1,7 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap');
+
 // default params
-$font-family: sans-serif;
+$font-family: 'Montserrat', sans-serif;
 $font-weight: 400;
 $font-size: 16px;
 $line-height: 1.4;
@@ -9,6 +11,11 @@ $text-cl: #000000;
 $success-cl: #219653;
 $danger-cl: #EB5757;
 
+$main-cl: lightgreen;
+// $main-cl: #FA8072;
+$add-cl: #95dee3;
+
+
 $gray-cl: #f6f7fa;
 $gray-hover-cl: #ecedf0;
 
@@ -17,5 +24,6 @@ $placeholder-cl: #d4d4d5;
 
 // sizes
 $container-sm: 600px
+
 
 

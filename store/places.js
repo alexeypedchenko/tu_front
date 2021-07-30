@@ -61,6 +61,9 @@ export const mutations = {
   mutate(state, payload) {
     state[payload.property] = payload.value;
   },
+  setNewPlace(state, newPlace) {
+    state.list.push(newPlace)
+  }
 }
 
 export const actions = {

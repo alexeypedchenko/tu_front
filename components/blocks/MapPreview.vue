@@ -19,13 +19,13 @@
           <div
             v-for="tag in item.tags"
             :key="tag"
-            class="map-preview__tag"
+            class="map-preview__tag tag"
           >
-            {{ tag }}
+            #{{ tag }}
           </div>
         </div>
         <div class="map-preview__actions">
-          <button @click="handleRoute">
+          <button @click.stop="handleRoute">
             to route
           </button>
         </div>
@@ -47,11 +47,11 @@
       </div>
 
       <div class="map-preview__footer">
-        <button @click="handleDetails">
-          Details ->
+        <button class="btn" @click.stop="handleDetails">
+          Подробнее
         </button>
-        <button @click="showOnMap(index)">
-          Show on map ()
+        <button class="btn" @click="showOnMap(index)">
+          На карте
         </button>
       </div>
     </div>
@@ -103,43 +103,52 @@ export default {
 
 <style lang="scss">
 .map-preview {
+  // cursor: pointer;
+  position: relative;
   border-radius: 2px;
   overflow: hidden;
-  box-shadow: 0 5px 15px 0 rgba(#000, 0.1);
+  box-shadow: 0 7px 20px 0 rgba(#000, 0.12);
+  transition: 0.3s;
   &:not(:last-child) {
     margin-bottom: 20px;
   }
 }
 .map-preview__img {
-  height: 200px;
   width: 100%;
+  height: 200px;
   object-fit: cover;
+  object-position: center;
   display: block;
 }
 .map-preview__content {
-  // min-height: 200px;
   padding: 20px;
+  display: flex;
+  flex-direction: column;
 }
 .map-preview__head {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin-bottom: 20px;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  padding: 10px 10px 5px 10px;
+  background: linear-gradient(to bottom, rgba(#000, 0.5), transparent);
 }
 .map-preview__tags {
   display: flex;
-}
-.map-preview__tag:not(:last-child) {
-  margin-right: 5px;
-}
-.map-preview__tag {
-  border: 1px solid #000;
-  border-radius: 20px;
-  padding: 2px 7px;
-  font-size: 12px;
+  flex-wrap: wrap;
+  .tag {
+    margin-bottom: 5px;
+    &:not(:last-child) {
+      margin-right: 5px;
+    }
+  }
 }
 .map-preview__actions {
   button {
+    white-space: nowrap;
     &.active {
       background: lime;
     }
@@ -156,17 +165,16 @@ export default {
   margin-bottom: 20px;
 }
 .map-preview__footer {
+  margin-top: auto;
   display: flex;
-  button {
-    padding: 7px 15px;
-    &:not(:last-child) {
-      margin-right: 10px;
-    }
+  justify-content: flex-end;
+  .btn:not(:last-child) {
+    margin-right: 10px;
   }
 }
 
 .map-preview:hover,
 .map-preview--active {
-  background: #f6f7fa;
+  box-shadow: 0 10px 25px 0 rgba(#000, 0.25);
 }
 </style>
