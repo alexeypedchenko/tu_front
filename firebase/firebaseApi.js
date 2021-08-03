@@ -32,16 +32,16 @@ export const createDoc = async (collection, item) => {
 }
 
 export const getDoc = async (collection, id, condition = null) => {
-  let item = null
-  if (condition) {
-    item = await db.collection(collection)
-      .where(condition.prop, '==', condition.val)
-      .get()
-    if (!item.empty) {
-      item = item.docs[0]
-    }
-  } else {
-    item = await db.collection(collection).doc(id).get()
+  const item = await db.collection(collection).doc(id).get()
+  return item.exists ? item.data() : null
+}
+
+export const getDocByCondition = async (collection, condition = null) => {
+  const item = await db.collection(collection)
+    .where(condition.prop, '==', condition.val)
+    .get()
+  if (!item.empty) {
+    item = item.docs[0]
   }
   return item.exists ? item.data() : null
 }

@@ -7,6 +7,7 @@
       <p>
         {{ page.description }}
       </p>
+      <img :src="page.image" :alt="page.name">
 
       <br>
       <pre style="font-size: 10px">{{ page }}</pre>

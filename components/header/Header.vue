@@ -1,8 +1,8 @@
 <template>
   <div class="header">
-    <header-logo />
+    <header-logo class="header__logo" />
 
-    <app-navbar />
+    <app-navbar class="header__nav" />
 
     <button
       v-if="user"
@@ -54,14 +54,17 @@ export default {
   width: 100%;
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  // justify-content: space-between;
   padding: 20px;
   .container {
     display: flex;
     justify-content: space-between;
   }
 }
-.header--sm {
-  width: $container-sm;
+.header__logo {
+  margin-right: 60px;
+}
+.header__nav {
+  margin-right: auto;
 }
 </style>
