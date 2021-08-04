@@ -1,9 +1,7 @@
 <template>
-  <div class="container">
-    <p class="page-text">
-      {{ text }}
-    </p>
-  </div>
+  <p class="builder-text">
+    {{ text }}
+  </p>
 </template>
 
 <script>
@@ -19,7 +17,7 @@ export default {
 </script>
 
 <style lang="scss">
-.page-text {
+.builder-text {
   font-size: 18px;
   line-height: 1.4;
 }

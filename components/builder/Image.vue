@@ -1,8 +1,6 @@
 <template>
-  <div class="image">
-    <div class="container">
-      <img :src="image" alt="image">
-    </div>
+  <div class="builder-image">
+    <img :src="image" alt="image">
   </div>
 </template>
 
@@ -19,7 +17,10 @@ export default {
 </script>
 
 <style>
-.image img {
+.builder-image img {
+  /* width: calc(100% + 100px);
+  margin-left: -50px;
+  margin-right: -50px; */
   width: 100%;
   height: auto;
   display: block;

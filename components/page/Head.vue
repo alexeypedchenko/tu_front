@@ -40,8 +40,10 @@ export default {
 <style lang="scss">
 .page-head {
   position: relative;
-  width: calc(100vw - 120px);
-  margin: 120px auto 40px;
+  width: calc(100vw - 80px);
+  margin: 40px auto 40px;
+  border-radius: 10px;
+  overflow: hidden;
 }
 .page-head__image {
   width: 100%;

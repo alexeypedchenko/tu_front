@@ -5,7 +5,7 @@
       :description="page.description"
       :image="page.image"
     />
-    <page-dynamic-blocks :blocks="page.pageBlocks" />
+    <builder :blocks="page.pageBlocks" />
     <pre>{{page}}</pre>
   </div>
 </template>

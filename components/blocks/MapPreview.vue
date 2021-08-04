@@ -103,9 +103,8 @@ export default {
 
 <style lang="scss">
 .map-preview {
-  // cursor: pointer;
   position: relative;
-  border-radius: 2px;
+  border-radius: 8px;
   overflow: hidden;
   box-shadow: 0 7px 20px 0 rgba(#000, 0.12);
   transition: 0.3s;

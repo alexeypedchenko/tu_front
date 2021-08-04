@@ -45,10 +45,11 @@ export default {
 
 <style lang="scss">
 .header {
-  position: fixed;
-  z-index: 999;
-  background: #fff;
-  border-bottom: 1px solid #000;
+  // position: fixed;
+  // z-index: 999;
+  background: lightcyan;
+  // box-shadow: 0 10px 20px 0 rgba(#000, 0.1);
+  // border-bottom: 1px solid #000;
   top: 0;
   left: 0;
   width: 100%;
