@@ -1,5 +1,6 @@
 export const state = () =>({
-  user: null
+  user: null,
+  profile: null,
 })
 
 export const mutations = {
@@ -29,6 +30,7 @@ export const actions = {
       commit('SIGN_OUT')
     } else {
       commit('SIGN_IN', authUser)
+      // TODO fill user table
     }
   },
 }

@@ -16,14 +16,16 @@ export const authStateChanged = () => {
 }
 
 export const createUser = async (email, password) => {
-  await auth.createUserWithEmailAndPassword(email, password)
-    .then((userCredential) => {
-      console.log('New User is created')
-      const user = userCredential.user
-    })
-    .catch((error) => {
-      console.log('Create User error')
-    })
+  return new Promise((res, rej) => {
+    auth.createUserWithEmailAndPassword(email, password)
+      .then((userCredential) => {
+        const user = userCredential.user
+        res(user)
+      })
+      .catch((error) => {
+        rej(error)
+      })
+  })
 }
 
 // checked [x]

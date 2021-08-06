@@ -1,6 +1,6 @@
 import firebase from '~/firebase/firebaseApp'
 
-const db = firebase.firestore()
+export const db = firebase.firestore()
 
 export const getCollection = async (collection) => {
   return new Promise((res, rej) => {

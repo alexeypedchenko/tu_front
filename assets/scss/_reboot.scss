@@ -38,7 +38,7 @@ a {
 textarea,
 input {
   padding: 0;
-  border: none;
+  // border: none;
   outline: none;
   &::placeholder {
     color: currentColor;
@@ -58,7 +58,7 @@ textarea::-webkit-scrollbar {
 
 button {
   background: none;
-  border: none;
+  // border: none;
   background: #fff;
   outline: none;
   padding: 0;
