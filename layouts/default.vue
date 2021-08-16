@@ -11,6 +11,8 @@
         © TU 2021
       </p>
     </footer>
+
+    <profile-auth-modal />
   </div>
 </template>
 

@@ -4,7 +4,6 @@
 
     <app-navbar class="header__nav" />
 
-
     <profile-enter />
   </div>
 </template>

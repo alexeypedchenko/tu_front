@@ -1,6 +1,6 @@
 import firebase from '~/firebase/firebaseApp'
 
-const auth = firebase.auth()
+export const auth = firebase.auth()
 
 // checked [x]
 export const authStateChanged = () => {

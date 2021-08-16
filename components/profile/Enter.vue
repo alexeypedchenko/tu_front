@@ -1,73 +1,42 @@
 <template>
   <div class="enter">
-    <button @click="signUp">
-      sign up
-    </button>
+    <template v-if="!!user">
+      hello {{ user.displayName || user.email }}!
+      <profile-logout />
+    </template>
+    <template v-else>
+      <button @click="signUp">
+        sign up
+      </button>
 
-    <button @click="signIn">
-      sign in
-    </button>
-
-    <button
-      v-if="user"
-      @click="logout"
-    >
-      logout
-    </button>
-
-    <modal
-      :opened="modal"
-      @close="hideModal"
-    >
-      <profile-sign-up />
-    </modal>
+      <button @click="signIn">
+        sign in
+      </button>
+    </template>
   </div>
 </template>
 
 <script>
 import { mapState } from 'vuex'
+
 export default {
   name: 'Enter',
-  data() {
-    return {
-      modal: true,
-    }
-  },
   computed: {
     ...mapState('auth', [
       'user',
+      'profile',
     ])
-  },
-  mounted() {
-    console.log('enter component')
   },
   methods: {
     signUp() {
       // <!-- зарегистрироваться -->
-      console.log('signUp')
-      this.showModal()
+      const modalType = 'sign-up'
+      this.$store.dispatch('auth/showModal', modalType)
     },
     signIn() {
       // <!-- войти -->
-      console.log('signIn')
-      this.showModal()
-    },
-    async logout() {
-      await firebase
-        .auth()
-        .signOut()
-        .then(() => {
-          this.$store.dispatch('auth/fireAuthAction')
-          this.$router.push('/login')
-        }).catch((error) => {
-            console.log('logout error:', error)
-        })
-    },
-    showModal() {
-      this.modal = true
-    },
-    hideModal() {
-      this.modal = false
+      const modalType = 'sign-in'
+      this.$store.dispatch('auth/showModal', modalType)
     },
   }
 }

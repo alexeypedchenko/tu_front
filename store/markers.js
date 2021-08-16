@@ -58,7 +58,7 @@ export const getters = {
         }
 
         // 4. - примечание!
-        // Объект 'place' обязательно должен иметь такие же ключи как и в фильтре.
+        // Объект 'place' обязательно должен иметь такие же ключи как и объект 'filters'.
       }
 
       return condition
@@ -68,6 +68,7 @@ export const getters = {
     return state.filters
   },
   getFilterList(state) {
+    // собираем списки фильтров по ключам из списка элементов
     const markers = state.list
     const filterTypes = Object.keys(state.filters)
     const filterList = {}

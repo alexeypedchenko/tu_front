@@ -2,10 +2,10 @@
   <div class="sign-up">
     <div class="sign-up__head">
       <h2>
-        Sign Up
+        Sign In
       </h2>
       <span>
-        зарегистрироваться
+        войти
       </span>
     </div>
 
@@ -19,17 +19,17 @@
         {{ error }}
       </p>
       <button class="btn">
-        Sign Up
+        Sign Ip
       </button>
     </form>
   </div>
 </template>
 
 <script>
-import { createUser } from '~/firebase/userApi'
-import { db } from '~/firebase/firebaseApi'
+import { setUser } from '~/plugins/setUser'
+import { userSignIn } from '~/firebase/userApi'
 export default {
-  name: 'SignUp',
+  name: 'SignIp',
   data() {
     return {
       email: '',
@@ -39,13 +39,12 @@ export default {
   },
   methods: {
     async submit() {
-      console.log('this.email:', this.email)
-      console.log('this.password:', this.password)
-      await createUser(this.email, this.password)
-        .then(async (user) => {
-          console.log('user:', user)
-          await this.setUserData(user.uid)
-          this.$emit('success')
+      await userSignIn(this.email, this.password)
+        .then((user) => {
+          if (!!user) {
+            setUser(this.$store, user)
+            this.$emit('success')
+          }
         })
         .catch((err) => {
           console.log('err:', err)
@@ -57,22 +56,6 @@ export default {
       this.password = ''
       this.error = ''
     },
-    async setUserData(uid) {
-      const userData = {
-        favoritePlaces: [],
-        favoriteRoutes: [],
-        createdRoutes: [],
-        role: 'user',
-        credentials: {
-          userPanel: true,
-          adminPanel: false,
-        },
-      }
-
-      await db.collection('users').doc(uid).set(userData)
-        .then(() => console.log('user data create successfuly'))
-        .catch((err) => console.log('err:', err))
-    }
   }
 }
 </script>

@@ -3,17 +3,25 @@
     <div class="container">
       home
     </div>
+    <div>
+      user
+      <pre>
+        {{ $store.state.auth.user || '' }}
+      </pre>
+    </div>
+    <div>
+      profile
+      <pre>
+        {{ $store.state.auth.profile || '' }}
+      </pre>
+    </div>
   </div>
 </template>
 
 <script>
 export default {
-  mounted() {
-    console.log('this.$store.auth.user:', this.$store.state.auth.user)
-  }
 }
 </script>
 
 <style>
-
 </style>

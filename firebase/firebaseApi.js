@@ -31,7 +31,7 @@ export const createDoc = async (collection, item) => {
   })
 }
 
-export const getDoc = async (collection, id, condition = null) => {
+export const getDoc = async (collection, id) => {
   const item = await db.collection(collection).doc(id).get()
   return item.exists ? item.data() : null
 }

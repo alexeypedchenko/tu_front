@@ -17,7 +17,7 @@
         />
       </div>
       <div class="map-page__items">
-        <map-preview
+        <card
           v-for="(item, index) in items"
           :key="item.id"
           :index="index"
@@ -39,7 +39,6 @@
 <script>
 import {mapState} from 'vuex'
 import Fltr from '~/components/fltr/Fltr'
-import MapPreview from '~/components/blocks/MapPreview'
 import GoogleMap from '~/components/google/GoogleMap'
 
 export default {
@@ -68,7 +67,6 @@ export default {
   },
   components: {
     AppFltr: Fltr,
-    MapPreview,
     GoogleMap,
   },
   computed: {

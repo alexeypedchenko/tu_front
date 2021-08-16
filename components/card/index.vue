@@ -1,52 +1,51 @@
 <template>
   <div
-    class="map-preview"
-    :class="{'map-preview--active' : index === hoveredMarkerIndex}"
+    class="card"
+    :class="{'card--active' : index === hoveredMarkerIndex}"
     @mouseenter="handleEnter"
     @mouseleave="handleLeave"
   >
     <img
-      class="map-preview__img"
+      class="card__img"
       :src="item.image"
       :alt="item.name"
     >
-    <div class="map-preview__content">
-      <div class="map-preview__head">
+    <div class="card__content">
+      <div class="card__head">
         <div
           v-if="item.tags"
-          class="map-preview__tags"
+          class="card__tags"
         >
           <div
             v-for="tag in item.tags"
             :key="tag"
-            class="map-preview__tag tag"
+            class="card__tag tag"
           >
             #{{ tag }}
           </div>
         </div>
-        <div class="map-preview__actions">
-          <button @click.stop="handleRoute">
-            to route
-          </button>
+        <div class="card__actions">
+          <card-favorite :id="item._id" />
+          <!-- TODO add to route -->
         </div>
       </div>
 
-      <div class="map-preview__body">
+      <div class="card__body">
         <div
           v-if="item.name"
-          class="map-preview__name"
+          class="card__name"
         >
           {{ item.name }}
         </div>
         <div
           v-if="item.description"
-          class="map-preview__description"
+          class="card__description"
         >
           {{ item.description }}
         </div>
       </div>
 
-      <div class="map-preview__footer">
+      <div class="card__footer">
         <button class="btn" @click.stop="handleDetails">
           Подробнее
         </button>
@@ -63,7 +62,7 @@ import {mapState} from 'vuex'
 import {mapGetters} from 'vuex'
 
 export default {
-  name: 'MapPreview',
+  name: 'Card',
   props: {
     index: {
       type: Number,
@@ -79,9 +78,6 @@ export default {
     ...mapGetters('map', ['isMapInit']),
   },
   methods: {
-    handleRoute() {
-      console.log('Place added to Route')
-    },
     handleDetails() {
       this.$emit('details-item', this.item)
     },
@@ -102,7 +98,7 @@ export default {
 </script>
 
 <style lang="scss">
-.map-preview {
+.card {
   position: relative;
   border-radius: 8px;
   overflow: hidden;
@@ -112,19 +108,19 @@ export default {
     margin-bottom: 20px;
   }
 }
-.map-preview__img {
+.card__img {
   width: 100%;
   height: 200px;
   object-fit: cover;
   object-position: center;
   display: block;
 }
-.map-preview__content {
+.card__content {
   padding: 20px;
   display: flex;
   flex-direction: column;
 }
-.map-preview__head {
+.card__head {
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -135,7 +131,7 @@ export default {
   padding: 10px 10px 5px 10px;
   background: linear-gradient(to bottom, rgba(#000, 0.5), transparent);
 }
-.map-preview__tags {
+.card__tags {
   display: flex;
   flex-wrap: wrap;
   .tag {
@@ -145,7 +141,7 @@ export default {
     }
   }
 }
-.map-preview__actions {
+.card__actions {
   button {
     white-space: nowrap;
     &.active {
@@ -154,16 +150,16 @@ export default {
     padding: 5px 10px;
   }
 }
-.map-preview__name {
+.card__name {
   font-size: 20px;
   font-size: 18px;
   margin-bottom: 20px;
 }
-.map-preview__description {
+.card__description {
   font-size: 16px;
   margin-bottom: 20px;
 }
-.map-preview__footer {
+.card__footer {
   margin-top: auto;
   display: flex;
   justify-content: flex-end;
@@ -172,8 +168,8 @@ export default {
   }
 }
 
-.map-preview:hover,
-.map-preview--active {
+.card:hover,
+.card--active {
   box-shadow: 0 10px 25px 0 rgba(#000, 0.25);
 }
 </style>
