@@ -1,7 +1,7 @@
 <template>
   <div class="home">
     <div class="container">
-      home
+      home page
     </div>
     <div>
       user
