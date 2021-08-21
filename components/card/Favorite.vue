@@ -1,13 +1,18 @@
 <template>
   <div
     class="favorite"
-    :class="{'favorite--exists' : profile && profile.favoritePlaces.includes(id)}"
+    :class="{'favorite--exists' : inFavorite}"
   >
     <button
       @click="toFavorite"
       :class="{'btn--load' : load}"
     >
-      to favorite
+      <template v-if="!inFavorite">
+        to favorite
+      </template>
+      <template v-else>
+        in favorite ✓
+      </template>
     </button>
   </div>
 </template>
@@ -32,7 +37,10 @@ export default {
     ...mapState('auth', [
       'user',
       'profile',
-    ])
+    ]),
+    inFavorite() {
+      return this.profile && this.profile.favoritePlaces.includes(this.id)
+    }
   },
   methods: {
     toFavorite() {
@@ -66,6 +74,6 @@ export default {
 
 <style>
 .favorite--exists button {
-  background: green;
+  background: lightgreen;
 }
 </style>

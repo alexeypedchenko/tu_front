@@ -1,7 +1,10 @@
 <template>
   <div class="enter">
     <template v-if="!!user">
-      hello {{ user.displayName || user.email }}!
+      hello
+      <nuxt-link class="action" to="/profile">
+        {{ user.displayName || user.email }}
+      </nuxt-link>
       <profile-logout />
     </template>
     <template v-else>

@@ -1,5 +1,5 @@
 <template>
-  <map-page
+  <blocks-map-page
     v-if="dataLoaded"
     :items="filtredMarkers"
     :filters="getFilters"
@@ -12,7 +12,6 @@
 <script>
 import { getObjectByKey } from '~/js/utils'
 import { mapState, mapGetters } from 'vuex'
-import MapPage from '~/components/blocks/MapPage'
 
 export default {
   async fetch ({store}) {
@@ -20,9 +19,6 @@ export default {
     if (!dataLoaded) {
       await store.dispatch('markers/getCollection')
     }
-  },
-  components: {
-    MapPage,
   },
   computed: {
     ...mapState('markers', [

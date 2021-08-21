@@ -146,6 +146,7 @@ export default {
     background: $gray-cl;
     border-radius: 2px;
     font-size: 14px;
+    border: none;
   }
   img {
     width: 15px;

@@ -14,6 +14,7 @@
     </div>
 
     <search-fltr
+      v-if="searchField"
       name="name"
       :value="filters.name"
       @input="filterItemChange"
@@ -37,21 +38,14 @@
       />
     </div>
 
+    <nuxt-link v-if="route" class="btn" :to="route">
+      применить
+    </nuxt-link>
+
     <div
       v-if="hasFilters"
       class="fltr__footer"
     >
-      <!-- <b>Вы искали:</b>
-      <span
-        v-for="(item, index) of Object.values(filters).filter(el => !!el)"
-        :key="item"
-      >
-        <template v-if="index !== 0">
-          •
-        </template>
-        {{ item }}
-      </span>
-      <br> -->
       <b>Найдено:</b> {{ items.length }} мест.
     </div>
   </div>
@@ -79,6 +73,14 @@ export default {
     filterList: {
       type: Object,
       default: () => ({}),
+    },
+    searchField: {
+      type: Boolean,
+      default: true,
+    },
+    route: {
+      type: String,
+      default: '',
     },
   },
   components: {
@@ -142,6 +144,7 @@ export default {
 <style lang="scss">
 .fltr {
   position: relative;
+  padding-bottom: 10px;
   .search-fltr {
     margin-bottom: 8px;
   }
@@ -162,19 +165,11 @@ export default {
   z-index: 1;
   padding: 5px 15px;
 }
-.fltr__list {
-  display: flex;
-  flex-wrap: wrap;
-  margin-bottom: 8px;
-  .fltr__item {
-    width: calc(50% - 4px);
-    margin-bottom: 8px;
-    &:nth-child(odd) {
-      margin-right: 8px;
-    }
-  }
-}
 .fltr__footer {
   font-size: 14px;
+  height: 20px;
+  position: absolute;
+  bottom: 0;
+  left: 0;
 }
 </style>

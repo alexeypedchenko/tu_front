@@ -15,6 +15,8 @@ export const mutations = {
       email,
       displayName,
       emailVerified,
+      photoURL,
+      phoneNumber,
     } = authUser
 
     state.user = {
@@ -22,6 +24,8 @@ export const mutations = {
       email,
       displayName,
       emailVerified,
+      photoURL,
+      phoneNumber,
     }
   },
   mutate(state, payload) {

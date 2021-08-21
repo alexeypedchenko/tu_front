@@ -1,0 +1,6 @@
+.action {
+  color: $main-cl;
+  &:hover {
+    color: darken($main-cl, 10);
+  }
+}

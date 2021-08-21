@@ -45,7 +45,8 @@ export const userSignIn = (email, password) => {
 export const userUpdate = async (user) => {
   await auth.currentUser
     .updateProfile(user)
-    .then(() => {
+    .then((userData) => {
+      console.log('userData:', userData)
       console.log('User Update successful')
     })
     .catch(function(error) {

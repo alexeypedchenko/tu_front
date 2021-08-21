@@ -9,7 +9,7 @@
         v-if="showFilter"
         class="map-page__filter"
       >
-        <app-fltr
+        <fltr
           :storeName="storeName"
           :filters="filters"
           :filterList="filterList"
@@ -38,8 +38,6 @@
 
 <script>
 import {mapState} from 'vuex'
-import Fltr from '~/components/fltr/Fltr'
-import GoogleMap from '~/components/google/GoogleMap'
 
 export default {
   name: 'MapPage',
@@ -64,10 +62,6 @@ export default {
       type: Object,
       default: () => ({}),
     },
-  },
-  components: {
-    AppFltr: Fltr,
-    GoogleMap,
   },
   computed: {
     ...mapState('map', ['hoveredMarkerIndex']),
@@ -118,6 +112,18 @@ export default {
 }
 .map-page__filter {
   margin-bottom: 20px;
+  .fltr__list {
+    display: flex;
+    flex-wrap: wrap;
+    margin-bottom: 8px;
+    .fltr__item {
+      width: calc(50% - 4px);
+      margin-bottom: 8px;
+      &:nth-child(odd) {
+        margin-right: 8px;
+      }
+    }
+  }
 }
 .map-page__map {
   width: calc(100% - #{$container-sm});

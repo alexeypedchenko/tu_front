@@ -26,6 +26,7 @@
 </template>
 
 <script>
+import { setUser } from '~/plugins/setUser'
 import { createUser } from '~/firebase/userApi'
 import { db } from '~/firebase/firebaseApi'
 export default {
@@ -43,8 +44,8 @@ export default {
       console.log('this.password:', this.password)
       await createUser(this.email, this.password)
         .then(async (user) => {
-          console.log('user:', user)
           await this.setUserData(user.uid)
+          setUser(this.$store, user)
           this.$emit('success')
         })
         .catch((err) => {

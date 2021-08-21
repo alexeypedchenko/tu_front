@@ -1,14 +1,14 @@
 <template>
-  <div class="home">
-    <pages-home-filter />
+  <div class="profile">
     <div class="container">
-      home page
+      <profile-user-data />
     </div>
   </div>
 </template>
 
 <script>
 export default {
+
 }
 </script>
 
