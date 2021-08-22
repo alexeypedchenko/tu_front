@@ -57,24 +57,22 @@ export default {
         return
       }
       if (this.inFavorite) {
-        console.log('in favorite')
         this.showConfirmModal()
         return
       }
       this.toggleToFavorite()
-      
     },
     async toggleToFavorite() {
       this.load = true
       const profile = JSON.parse(JSON.stringify(this.profile))
       const favoritePlaceIndex = profile.favoritePlaces.findIndex((el) => el === this.id)
+      if (favoritePlaceIndex === -1) {
+        profile.favoritePlaces.push(this.id)
+      } else {
+        profile.favoritePlaces.splice(favoritePlaceIndex, 1)
+      }
       await updateDoc('users', this.user.uid, profile)
         .then(() => {
-          if (favoritePlaceIndex === -1) {
-            profile.favoritePlaces.push(this.id)
-          } else {
-            profile.favoritePlaces.splice(favoritePlaceIndex, 1)
-          }
           this.$store.dispatch('auth/setUserData', profile)
         })
         .catch((err) => {

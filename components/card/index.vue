@@ -46,11 +46,9 @@
       </div>
 
       <div class="card__footer">
-        <button class="btn" @click.stop="handleDetails">
+        <nuxt-link class="btn" :to="`/places/${item.link}`">
           Подробнее
-          <!-- TODO сделать переход на страницу -->
-          <!-- добавать в объект маркера слаг на страницу вместо id страницы -->
-        </button>
+        </nuxt-link>
         <button class="btn" @click="showOnMap(index)">
           На карте
           <!-- TODO открывать карту в модальном окне -->
