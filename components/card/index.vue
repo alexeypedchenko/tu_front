@@ -48,9 +48,12 @@
       <div class="card__footer">
         <button class="btn" @click.stop="handleDetails">
           Подробнее
+          <!-- TODO сделать переход на страницу -->
+          <!-- добавать в объект маркера слаг на страницу вместо id страницы -->
         </button>
         <button class="btn" @click="showOnMap(index)">
           На карте
+          <!-- TODO открывать карту в модальном окне -->
         </button>
       </div>
     </div>
@@ -58,8 +61,7 @@
 </template>
 
 <script>
-import {mapState} from 'vuex'
-import {mapGetters} from 'vuex'
+import { mapState, mapGetters } from 'vuex'
 
 export default {
   name: 'Card',
@@ -102,34 +104,34 @@ export default {
   position: relative;
   border-radius: 8px;
   overflow: hidden;
-  box-shadow: 0 7px 20px 0 rgba(#000, 0.12);
-  transition: 0.3s;
-  &:not(:last-child) {
-    margin-bottom: 20px;
-  }
 }
 .card__img {
+  position: absolute;
+  top: 0;
+  left: 0;
   width: 100%;
-  height: 200px;
+  height: 100%;
   object-fit: cover;
   object-position: center;
   display: block;
+  z-index: 1;
 }
 .card__content {
   padding: 20px;
   display: flex;
   flex-direction: column;
+  min-height: 300px;
+  position: relative;
+  z-index: 2;
+  background: rgba(#000, 0.2);
+  color: #fff;
+  transition: 0.3s;
 }
 .card__head {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  padding: 10px 10px 5px 10px;
-  background: linear-gradient(to bottom, rgba(#000, 0.5), transparent);
+  margin-bottom: 40px;
 }
 .card__tags {
   display: flex;
@@ -141,15 +143,7 @@ export default {
     }
   }
 }
-.card__actions {
-  button {
-    white-space: nowrap;
-    &.active {
-      background: lime;
-    }
-    padding: 5px 10px;
-  }
-}
+.card__actions {}
 .card__name {
   font-size: 20px;
   font-size: 18px;
@@ -159,10 +153,11 @@ export default {
   font-size: 16px;
   margin-bottom: 20px;
 }
-.card__footer {
+.card__body {
   margin-top: auto;
+}
+.card__footer {
   display: flex;
-  justify-content: flex-end;
   .btn:not(:last-child) {
     margin-right: 10px;
   }
@@ -170,6 +165,8 @@ export default {
 
 .card:hover,
 .card--active {
-  box-shadow: 0 10px 25px 0 rgba(#000, 0.25);
+  .card__content {
+    background: rgba(#000, 0.4);
+  }
 }
 </style>

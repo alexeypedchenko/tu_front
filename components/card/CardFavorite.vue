@@ -14,6 +14,12 @@
         in favorite ✓
       </template>
     </button>
+    <modal-confirm
+      :opened="modalOpened"
+      text="Удалить место из избранного?"
+      @close="closeConfirmModal"
+      @yes="toggleToFavorite"
+    />
   </div>
 </template>
 
@@ -27,10 +33,11 @@ export default {
       default: '',
     },
   },
-  name: 'Favorite',
+  name: 'CardFavorite',
   data() {
     return {
       load: false,
+      modalOpened: false,
     }
   },
   computed: {
@@ -49,16 +56,25 @@ export default {
         this.$store.dispatch('auth/showModal', modalType)
         return
       }
+      if (this.inFavorite) {
+        console.log('in favorite')
+        this.showConfirmModal()
+        return
+      }
+      this.toggleToFavorite()
+      
+    },
+    async toggleToFavorite() {
       this.load = true
       const profile = JSON.parse(JSON.stringify(this.profile))
       const favoritePlaceIndex = profile.favoritePlaces.findIndex((el) => el === this.id)
-      if (favoritePlaceIndex === -1) {
-        profile.favoritePlaces.push(this.id)
-      } else {
-        profile.favoritePlaces.splice(favoritePlaceIndex, 1)
-      }
-      updateDoc('users', this.user.uid, profile)
+      await updateDoc('users', this.user.uid, profile)
         .then(() => {
+          if (favoritePlaceIndex === -1) {
+            profile.favoritePlaces.push(this.id)
+          } else {
+            profile.favoritePlaces.splice(favoritePlaceIndex, 1)
+          }
           this.$store.dispatch('auth/setUserData', profile)
         })
         .catch((err) => {
@@ -66,8 +82,15 @@ export default {
         })
         .finally(() => {
           this.load = false
+          this.closeConfirmModal()
         })
-    }
+    },
+    showConfirmModal() {
+      this.modalOpened = true
+    },
+    closeConfirmModal() {
+      this.modalOpened = false
+    },
   }
 }
 </script>

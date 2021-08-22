@@ -3,6 +3,9 @@
     <!-- <div class="user-data__head">
       img
     </div> -->
+    <h3>
+      Информация о пользователе
+    </h3>
     <div class="user-data__body">
       <form-control
         name="Name"
@@ -124,6 +127,9 @@ export default {
   box-shadow: 0px 0px 32px rgba(0, 0, 0, 0.1);
   border-radius: 8px;
   padding: 32px;
+  h3 {
+    margin-bottom: 20px;
+  }
 }
 .user-data__head {
   margin-bottom: 20px;

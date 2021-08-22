@@ -185,7 +185,7 @@ export default {
   border: 1px solid #000;
   padding: 5px - 0;
   list-style-type: none;
-  z-index: 1;
+  z-index: 10;
   font-size: 14px;
 
   opacity: 0;

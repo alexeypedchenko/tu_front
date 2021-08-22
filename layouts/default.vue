@@ -6,11 +6,11 @@
       <Nuxt />
     </main>
 
-    <footer class="footer">
+    <!-- <footer class="footer">
       <p>
         © TU 2021
       </p>
-    </footer>
+    </footer> -->
 
     <profile-auth-modal />
   </div>

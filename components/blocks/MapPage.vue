@@ -4,7 +4,6 @@
       ref="content"
       class="map-page__content"
     >
-      <header-small-header/>
       <div
         v-if="showFilter"
         class="map-page__filter"
@@ -85,11 +84,7 @@ export default {
       this.$emit('details-item', item)
     }
   },
-  beforeMount() {
-    this.$store.commit('smallHeader', true)
-  },
   beforeDestroy() {
-    this.$store.commit('smallHeader', false)
     this.$store.commit('map/mapDestroy')
   },
 }
@@ -98,14 +93,16 @@ export default {
 <style lang="scss">
 .map-page {
   display: flex;
-  height: 100vh;
+  height: calc(100vh - 100px);
+  padding: 0 20px 20px 20px;
 }
 .map-page__content {
   position: relative;
   height: 100%;
   width: $container-sm;
+  margin-right: 8px;
   height: 100%;
-  padding: 20px;
+  padding-right: 20px;
   display: flex;
   flex-direction: column;
   overflow: auto;
@@ -125,8 +122,24 @@ export default {
     }
   }
 }
+.map-page__items {
+  display: flex;
+  flex-wrap: wrap;
+  .card {
+    width: calc(50% - 8px);
+    margin-bottom: 16px;
+    &:nth-child(odd) {
+      margin-right: 16px;
+    }
+  }
+}
 .map-page__map {
   width: calc(100% - #{$container-sm});
   height: 100%;
+  overflow: hidden;
+
+  background: #FFFFFF;
+  // box-shadow: 0px 0px 32px 0px rgba(0, 0, 0, 0.5);
+  border-radius: 8px;
 }
 </style>
