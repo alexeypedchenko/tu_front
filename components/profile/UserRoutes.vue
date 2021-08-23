@@ -10,6 +10,7 @@
           key="1"
           :user-route="selectedRoute"
           @back="selectedRoute = null"
+          @updateRoute="selectRoute"
         />
         <div
           v-else
@@ -38,6 +39,11 @@ export default {
   data() {
     return {
       selectedRoute: null,
+    }
+  },
+  watch: {
+    profile() {
+      console.log('this.createdRoutes:', this.createdRoutes)
     }
   },
   computed: {

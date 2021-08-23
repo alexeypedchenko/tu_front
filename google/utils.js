@@ -13,9 +13,6 @@ export const infoWindowTemplate = (data) => {
             ${data.description}
           <span/>
         </p>
-        <a href="${data.link}">
-          Подробнее
-        </a>
       </div>
     </div>
   `

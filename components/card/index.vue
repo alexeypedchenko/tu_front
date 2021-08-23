@@ -1,7 +1,10 @@
 <template>
   <div
     class="card"
-    :class="{'card--active' : index === hoveredMarkerIndex}"
+    :class="{
+      'card--active' : index === hoveredMarkerIndex,
+      'card--sm' : size === 'sm',
+    }"
     @mouseenter="handleEnter"
     @mouseleave="handleLeave"
     :style="`background-image: url(${item.image})`"
@@ -61,6 +64,10 @@ import { mapState, mapGetters } from 'vuex'
 export default {
   name: 'Card',
   props: {
+    size: {
+      type: String,
+      default: '',
+    },
     index: {
       type: Number,
       default: 0,
@@ -151,6 +158,20 @@ export default {
 .card--active {
   .card__content {
     background: rgba(#000, 0.4);
+  }
+}
+
+.card--sm {
+  .card__content {
+    min-height: 100px;
+  }
+  .card__name {
+    margin-bottom: 0;
+  }
+  .card__description,
+  .card__head,
+  .card__footer {
+    display: none;
   }
 }
 </style>
