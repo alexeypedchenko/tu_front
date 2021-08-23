@@ -58,5 +58,6 @@ export default {
 }
 .form-control__input {
   width: 100%;
+  padding: 5px 10px;
 }
 </style>

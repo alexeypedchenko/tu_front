@@ -19,7 +19,7 @@
         {{ error }}
       </p>
       <button class="btn">
-        Sign Ip
+        Sign In
       </button>
     </form>
   </div>
@@ -29,7 +29,7 @@
 import { setUser } from '~/plugins/setUser'
 import { userSignIn } from '~/firebase/userApi'
 export default {
-  name: 'SignIp',
+  name: 'SignIn',
   data() {
     return {
       email: '',

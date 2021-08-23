@@ -4,12 +4,8 @@
     :class="{'card--active' : index === hoveredMarkerIndex}"
     @mouseenter="handleEnter"
     @mouseleave="handleLeave"
+    :style="`background-image: url(${item.image})`"
   >
-    <img
-      class="card__img"
-      :src="item.image"
-      :alt="item.name"
-    >
     <div class="card__content">
       <div class="card__head">
         <div
@@ -26,6 +22,7 @@
         </div>
         <div class="card__actions">
           <card-favorite :id="item._id" />
+          <card-route :id="item._id" />
           <!-- TODO add to route -->
         </div>
       </div>
@@ -99,31 +96,21 @@ export default {
 
 <style lang="scss">
 .card {
-  position: relative;
   border-radius: 8px;
   overflow: hidden;
-}
-.card__img {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  object-position: center;
-  display: block;
-  z-index: 1;
+  background: no-repeat center / cover;
 }
 .card__content {
   padding: 20px;
   display: flex;
   flex-direction: column;
   min-height: 300px;
-  position: relative;
-  z-index: 2;
   background: rgba(#000, 0.2);
-  color: #fff;
   transition: 0.3s;
+}
+.card__name,
+.card__description {
+  color: #fff;
 }
 .card__head {
   display: flex;
@@ -141,7 +128,6 @@ export default {
     }
   }
 }
-.card__actions {}
 .card__name {
   font-size: 20px;
   font-size: 18px;

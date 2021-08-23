@@ -18,6 +18,10 @@ export default {
     items: {
       type: Array,
       default: () => ([])
+    },
+    showRoute: {
+      type: Boolean,
+      default: false,
     }
   },
   computed: {
@@ -66,7 +70,7 @@ export default {
       .init()
       .then(() => {
         this.$store.commit('map/mapInit')
-        this.map.setMarkers(this.items)
+        this.map.setMarkers(this.items, this.showRoute)
       })
   },
   methods: {

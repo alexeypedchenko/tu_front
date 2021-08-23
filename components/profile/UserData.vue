@@ -79,8 +79,6 @@ export default {
     ])
   },
   mounted() {
-    console.log('this.user:', this.user)
-    console.log('this.profile:', this.profile)
     this.setUserDAta()
   },
   methods: {

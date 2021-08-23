@@ -61,10 +61,10 @@ export class GoogleMap {
     this.directionsRenderer = new google.maps.DirectionsRenderer({
       suppressMarkers: true, // Подавить рендеринг маркеров.
       // https://developers.google.com/maps/documentation/javascript/reference/polygon#PolylineOptions
-      polylineOptions: {
-        strokeColor: 'blue',
-        zIndex: 1,
-      }
+      // polylineOptions: {
+      //   strokeColor: 'blue',
+      //   zIndex: 1,
+      // }
     })
 
     this.directionsRenderer.setMap(this.map)
@@ -109,7 +109,7 @@ export class GoogleMap {
     }
   }
 
-  setMarkers(markers = []) {
+  setMarkers(markers = [], showRoute = false) {
     // очищаем маркеры
     this.clearMarkers()
 
@@ -142,7 +142,9 @@ export class GoogleMap {
     this.centeredMap()
 
     // отрисовать маршрут
-    // this.setWaypointsToDirections(this.markers)
+    if (showRoute) {
+      this.setWaypointsToDirections(this.markers)
+    }
   }
 
   createMarker(marker, showOnMap = false) {
@@ -358,3 +360,4 @@ class Circle {
   }
 }
 
+// TODO Если на карте всего 1 (один) элемент, показывать его с зюмом в 10 - 12

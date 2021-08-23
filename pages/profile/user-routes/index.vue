@@ -1,6 +1,6 @@
 <template>
   <profile-page>
-    <profile-user-data />
+    <profile-user-routes />
   </profile-page>
 </template>
 

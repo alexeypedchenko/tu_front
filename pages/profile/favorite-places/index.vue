@@ -1,6 +1,6 @@
 <template>
   <profile-page>
-    <profile-user-data />
+    <profile-markers />
   </profile-page>
 </template>
 
