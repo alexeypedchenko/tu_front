@@ -1,9 +1,7 @@
 <template>
   <div class="home">
-    <pages-home-filter />
-    <div class="container">
-      home page
-    </div>
+    <!-- <pages-home-filter /> -->
+    <blocks-route-editor />
   </div>
 </template>
 

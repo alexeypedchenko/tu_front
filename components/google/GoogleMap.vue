@@ -42,6 +42,11 @@ export default {
     items(afterData, beforeData) {
       if (JSON.stringify(afterData) !== JSON.stringify(beforeData)) {
         this.map.setMarkers(this.items)
+        if (this.showRoute) {
+          console.log('this.showRoute:', this.showRoute)
+          console.log('this.items:', this.items)
+          this.map.route.draw(this.items)
+        }
       }
     },
     triggerInfoWindow(afterData, beforeData) {
@@ -70,15 +75,23 @@ export default {
       .init()
       .then(() => {
         this.$store.commit('map/mapInit')
-        this.map.setMarkers(this.items, this.showRoute)
+        this.map.setMarkers(this.items)
+        if (this.showRoute) {
+          this.map.route.draw(this.items)
+        }
       })
   },
   methods: {
     handleMarker(id) {
-      this.map.handleClickMarker(id)
+      if (this.map) {
+        this.map.handleClickMarker(id)
+      }
     },
     centeredMap() {
-      this.map.centeredMap()
+      if (this.map) {
+        console.log('this.map:', this.map)
+        this.map.centeredMap()
+      }
     },
   },
 }

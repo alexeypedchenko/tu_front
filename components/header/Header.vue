@@ -4,7 +4,10 @@
 
     <header-navbar class="header__nav" />
 
-    <profile-enter />
+    <div class="header__profile">
+      <profile-routes />
+      <profile-enter />
+    </div>
   </div>
 </template>
 
@@ -34,5 +37,9 @@ export default {
 }
 .header__nav {
   margin-right: auto;
+}
+.header__profile {
+  display: flex;
+  align-items: center;
 }
 </style>

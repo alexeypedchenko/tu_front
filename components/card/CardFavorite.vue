@@ -4,7 +4,7 @@
     :class="{'favorite--exists' : inFavorite}"
   >
     <button
-      @click="toFavorite"
+      @click.stop="toFavorite"
       :class="{'btn--load' : load}"
     >
       <template v-if="!inFavorite">
@@ -93,7 +93,10 @@ export default {
 }
 </script>
 
-<style>
+<style lang="scss">
+.favorite {
+  pointer-events: all;
+}
 .favorite--exists button {
   background: lightgreen;
 }

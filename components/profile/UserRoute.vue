@@ -43,7 +43,7 @@
         </div>
         <!-- TODO добавить новое место -->
       </div>
-      <div class="user-route__map">
+      <div class="user-route__map" v-if="userRoutePlaces">
         <h4>
           Маршрут:
         </h4>

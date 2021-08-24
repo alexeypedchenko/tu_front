@@ -32,31 +32,6 @@
         {{ item }} - {{filtersCount[item] || 0 }}
       </li>
     </div>
-
-    <!--
-    <select
-      :name="name"
-      @change="change"
-      @input="change"
-    >
-      <option
-        v-if="placeholder"
-        disabled
-        :selected="!list.includes(value)"
-      >
-        {{ placeholder }}
-      </option>
-      <option
-        v-for="item in list"
-        :key="item"
-        :value="item"
-        :selected="item === value"
-        :disabled="!filtersCount[item]"
-      >
-        {{ item }} - {{filtersCount[item] || 0 }}
-      </option>
-    </select>
-    -->
   </div>
 </template>
 

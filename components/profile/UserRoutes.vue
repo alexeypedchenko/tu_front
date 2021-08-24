@@ -41,11 +41,6 @@ export default {
       selectedRoute: null,
     }
   },
-  watch: {
-    profile() {
-      console.log('this.createdRoutes:', this.createdRoutes)
-    }
-  },
   computed: {
     ...mapState('auth', [
       'profile',
@@ -53,9 +48,6 @@ export default {
     createdRoutes() {
       return this.profile.createdRoutes
     }
-  },
-  mounted() {
-    console.log('this.profile:', this.profile)
   },
   methods: {
     selectRoute(name) {

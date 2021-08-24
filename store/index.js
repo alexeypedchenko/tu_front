@@ -1,5 +1,4 @@
 export const state = () => ({
-  smallHeaer: false,
   lang: {
     filters: {
       name: 'Название места',
@@ -9,11 +8,16 @@ export const state = () => ({
       type: 'Тип места',
     },
   },
+  editedUserRoute: '',
+  settingUserRoute: false,
 })
 
 export const mutations = {
-  smallHeader(state, prop) {
-    state.smallHeaer = prop
+  setEditedUserRoute(state, name) {
+    state.editedUserRoute = name
+  },
+  toggleSettingUserRoute(state) {
+    state.settingUserRoute = !state.settingUserRoute
   },
   mutate(state, payload) {
     state[payload.prop] = payload.value

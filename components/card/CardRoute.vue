@@ -84,6 +84,7 @@ export default {
           alert('Введите новое имя')
           return
         }
+        this.editedRoute(this.routeName)
         await this.createNewRoute(profile)
         return
       }
@@ -93,6 +94,7 @@ export default {
           alert('Маршрут с таким именем уже существует, введите новое имя')
           return
         }
+        this.editedRoute(this.routeName)
         await this.createNewRoute(profile)
         return
       }
@@ -104,6 +106,7 @@ export default {
           return
         }
         route.list.push(this.id)
+        this.editedRoute(route.name)
         await this.updateProfileData(profile)
         return
       }
@@ -132,6 +135,9 @@ export default {
           this.closeModal()
         })
     },
+    editedRoute(name) {
+      this.$store.commit('setEditedUserRoute', name)
+    },
     selectRoute(id) {
       this.selectedRoute === id ?
         this.selectedRoute = null
@@ -158,6 +164,9 @@ export default {
 </script>
 
 <style lang="scss">
+.card-route {
+  pointer-events: all;
+}
 .card-route-modal {
   h3 {
     margin-bottom: 20px;

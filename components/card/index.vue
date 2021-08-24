@@ -8,6 +8,7 @@
     @mouseenter="handleEnter"
     @mouseleave="handleLeave"
     :style="`background-image: url(${item.image})`"
+    @click.self="showOnMap(index)"
   >
     <div class="card__content">
       <div class="card__head">
@@ -49,10 +50,6 @@
         <nuxt-link class="btn" :to="`/places/${item.link}`">
           Подробнее
         </nuxt-link>
-        <button class="btn" @click="showOnMap(index)">
-          На карте
-          <!-- TODO открывать карту в модальном окне -->
-        </button>
       </div>
     </div>
   </div>
@@ -106,6 +103,7 @@ export default {
   border-radius: 8px;
   overflow: hidden;
   background: no-repeat center / cover;
+  cursor: pointer;
 }
 .card__content {
   padding: 20px;
@@ -114,6 +112,7 @@ export default {
   min-height: 300px;
   background: rgba(#000, 0.2);
   transition: 0.3s;
+  pointer-events: none;
 }
 .card__name,
 .card__description {
@@ -149,8 +148,11 @@ export default {
 }
 .card__footer {
   display: flex;
-  .btn:not(:last-child) {
-    margin-right: 10px;
+  .btn {
+    pointer-events: all;
+    &:not(:last-child) {
+      margin-right: 10px;
+    }
   }
 }
 

@@ -36,7 +36,7 @@
 </template>
 
 <script>
-import {mapState} from 'vuex'
+import { mapState } from 'vuex'
 
 export default {
   name: 'MapPage',
@@ -62,9 +62,6 @@ export default {
       default: () => ({}),
     },
   },
-  computed: {
-    ...mapState('map', ['hoveredMarkerIndex']),
-  },
   watch: {
     hoveredMarkerIndex(data) {
       if (data === null) return
@@ -78,6 +75,9 @@ export default {
         behavior: 'smooth'
       })
     },
+  },
+  computed: {
+    ...mapState('map', ['hoveredMarkerIndex']),
   },
   methods: {
     detailsItem(item) {
