@@ -30,6 +30,7 @@
     <div class="map-page__map">
       <google-map
         :items="items"
+        :route="route"
       />
     </div>
   </div>
@@ -60,6 +61,10 @@ export default {
     filterList: {
       type: Object,
       default: () => ({}),
+    },
+    route: {
+      type: Array,
+      default: () => ([]),
     },
   },
   watch: {

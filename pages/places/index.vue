@@ -6,6 +6,7 @@
     :filterList="getFilterList"
     storeName="markers"
     @details-item="detailsItem"
+    :route="route"
   />
 </template>
 
@@ -20,6 +21,16 @@ export default {
       await store.dispatch('markers/getCollection')
     }
   },
+  data() {
+    return {
+      route: []
+    }
+  },
+  watch: {
+    editedUserRoute() {
+      this.route = this.list.filter((marker) => this.editedUserRoute.list.includes(marker._id))
+    }
+  },
   computed: {
     ...mapState('markers', [
       'dataLoaded',
@@ -29,6 +40,9 @@ export default {
       'filtredMarkers',
       'getFilters',
       'getFilterList',
+    ]),
+    ...mapState([
+      'editedUserRoute',
     ]),
   },
   methods: {

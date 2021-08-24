@@ -349,6 +349,7 @@ class Route {
     // https://developers.google.com/maps/documentation/javascript/reference/directions#DirectionsRendererOptions
     this.directionsRenderer = new google.maps.DirectionsRenderer({
       suppressMarkers: true, // Подавить рендеринг маркеров.
+      preserveViewport: true, // Отменить центрирование карты относительно маршрута
       // https://developers.google.com/maps/documentation/javascript/reference/polygon#PolylineOptions
       // polylineOptions: {
       //   strokeColor: 'blue',

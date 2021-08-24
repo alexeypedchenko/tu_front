@@ -5,7 +5,7 @@
     <header-navbar class="header__nav" />
 
     <div class="header__profile">
-      <profile-routes />
+      <route-select />
       <profile-enter />
     </div>
   </div>

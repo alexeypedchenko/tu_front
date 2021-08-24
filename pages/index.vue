@@ -1,7 +1,7 @@
 <template>
   <div class="home">
     <!-- <pages-home-filter /> -->
-    <blocks-route-editor />
+    <route-editor />
   </div>
 </template>
 

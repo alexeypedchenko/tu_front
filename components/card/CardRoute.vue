@@ -106,18 +106,19 @@ export default {
           return
         }
         route.list.push(this.id)
-        this.editedRoute(route.name)
+        this.$store.commit('setEditedUserRoute', route)
         await this.updateProfileData(profile)
         return
       }
     },
     async createNewRoute(profile) {
       const route = {
-        name: '',
-        list: [],
+        name: this.routeName,
+        list: [
+          this.id,
+        ],
       }
-      route.name = this.routeName
-      route.list.push(this.id)
+      this.$store.commit('setEditedUserRoute', route)
       profile.createdRoutes.push(route)
       await this.updateProfileData(profile)
     },

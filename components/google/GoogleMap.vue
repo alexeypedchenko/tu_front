@@ -19,6 +19,10 @@ export default {
       type: Array,
       default: () => ([])
     },
+    route: {
+      type: Array,
+      default: () => ([])
+    },
     showRoute: {
       type: Boolean,
       default: false,
@@ -41,11 +45,17 @@ export default {
   watch: {
     items(afterData, beforeData) {
       if (JSON.stringify(afterData) !== JSON.stringify(beforeData)) {
-        this.map.setMarkers(this.items)
-        if (this.showRoute) {
-          console.log('this.showRoute:', this.showRoute)
-          console.log('this.items:', this.items)
-          this.map.route.draw(this.items)
+        this.drawMapData()
+      }
+    },
+    route(afterData, beforeData) {
+      if (JSON.stringify(afterData) !== JSON.stringify(beforeData)) {
+        if (this.route.length) {
+          this.map.route.clear()
+          this.map.route.draw(this.route)
+          setTimeout(() => {
+            this.centeredMap()
+          }, 1000);
         }
       }
     },
@@ -75,10 +85,7 @@ export default {
       .init()
       .then(() => {
         this.$store.commit('map/mapInit')
-        this.map.setMarkers(this.items)
-        if (this.showRoute) {
-          this.map.route.draw(this.items)
-        }
+        this.drawMapData()
       })
   },
   methods: {
@@ -89,10 +96,15 @@ export default {
     },
     centeredMap() {
       if (this.map) {
-        console.log('this.map:', this.map)
         this.map.centeredMap()
       }
     },
+    drawMapData() {
+      this.map.setMarkers(this.items)
+      if (this.showRoute) {
+        this.map.route.draw(this.items)
+      }
+    }
   },
 }
 </script>

@@ -1,5 +1,5 @@
 <template>
-  <div class="profile-routes">
+  <div class="route-select">
     <span>
       Ваши маршруты:
     </span>
@@ -7,16 +7,19 @@
       v-if="profile"
       @change="selectRoute($event.target.value)"
     >
+      <option disabled selected>
+        Выбрать маршрут
+      </option>
       <option
         v-for="route in profile.createdRoutes"
         :key="route.name"
         :value="route.name"
-        :selected="route.name === editedUserRoute"
+        :selected="route.name === editedUserRoute.name"
       >
         {{ route.name }}
       </option>
     </select>
-    <div class="profile-routes__actions">
+    <div class="route-select__actions">
       <template v-if="settingUserRoute">
         <button class="btn btn--sm" @click="editRoute">
           Сохранить
@@ -52,11 +55,12 @@ export default {
   },
   methods: {
     selectRoute(value) {
-      this.$store.commit('setEditedUserRoute', value)
+      const route = this.profile.createdRoutes.find((route) => route.name === value)
+      this.$store.commit('setEditedUserRoute', route)
     },
     editRoute() {
       if (!this.editedUserRoute) {
-        this.$store.commit('setEditedUserRoute', this.profile.createdRoutes[0].name)
+        this.$store.commit('setEditedUserRoute', this.profile.createdRoutes[0])
       }
       this.$store.commit('toggleSettingUserRoute')
     },
@@ -65,7 +69,7 @@ export default {
 </script>
 
 <style lang="scss">
-.profile-routes {
+.route-select {
   margin-right: 10px;
   display: flex;
   align-items: center;
@@ -80,7 +84,7 @@ export default {
     margin-right: 10px;
   }
 }
-.profile-routes__actions {
+.route-select__actions {
   .btn:not(:last-child) {
     margin-right: 6px;
   }

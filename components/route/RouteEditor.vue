@@ -1,17 +1,14 @@
 <template>
   <div class="route-editor">
-    <!-- editedUserRoute: {{ editedUserRoute }} <br>
-    settingUserRoute: {{ settingUserRoute }} <br> -->
+    <!-- editedUserRoute: {{ editedUserRoute }} <br> -->
+    <!-- settingUserRoute: {{ settingUserRoute }} <br> -->
+
     <div class="route-editor__content">
-      <div class="route-editor__places">
-        <card
-          v-for="(place, index) in places"
-          :key="place._id"
-          :index="index"
-          :item="place"
-          size="sm"
-        />
-      </div>
+      <route-select />
+
+      <route-places
+        :places="places"
+      />
     </div>
     <div class="route-editor__map">
       <google-map
@@ -29,15 +26,16 @@ export default {
   name: 'RouteEditor',
   data() {
     return {
-      places: []
+      route: null,
+      places: [],
     }
   },
   watch: {
     profile() {
-      this.getPlaces()
+      this.getRoute()
     },
     editedUserRoute() {
-      this.getPlaces()
+      this.getRoute()
     }
   },
   computed: {
@@ -53,16 +51,14 @@ export default {
     ]),
   },
   mounted() {
-    console.log('this.list:', this.list)
-    // console.log('this.profile.createdRoutes:', this.profile.createdRoutes)
-    this.getPlaces()
+    this.getRoute()
   },
   methods: {
-    getPlaces() {
+    getRoute() {
       if (!this.profile && !this.editedUserRoute) return
-      const route = this.profile.createdRoutes.find((route) => route.name === this.editedUserRoute)
-      if (route) {
-        this.places = this.list.filter((marker) => route.list.includes(marker._id))
+      this.route = this.profile.createdRoutes.find((route) => route.name === this.editedUserRoute.name)
+      if (this.route) {
+        this.places = this.list.filter((marker) => this.route.list.includes(marker._id))
       }
     }
   }
@@ -74,6 +70,9 @@ export default {
   display: flex;
   height: calc(100vh - 100px);
   padding: 0 20px 20px 20px;
+  .route-select {
+    margin-bottom: 20px;
+  }
 }
 .route-editor__content {
   position: relative;
