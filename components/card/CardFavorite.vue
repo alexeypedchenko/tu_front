@@ -5,13 +5,14 @@
   >
     <button
       @click.stop="toFavorite"
+      class="favorite__btn"
       :class="{'btn--load' : load}"
     >
       <template v-if="!inFavorite">
-        to favorite
+        ☆
       </template>
       <template v-else>
-        in favorite ✓
+        ★
       </template>
     </button>
     <modal-confirm
@@ -32,6 +33,10 @@ export default {
       type: String,
       default: '',
     },
+    favoritesCollection: {
+      type: String,
+      default: '',
+    },
   },
   name: 'CardFavorite',
   data() {
@@ -46,7 +51,7 @@ export default {
       'profile',
     ]),
     inFavorite() {
-      return this.profile && this.profile.favoritePlaces.includes(this.id)
+      return this.profile && this.profile[this.favoritesCollection].includes(this.id)
     }
   },
   methods: {
@@ -65,11 +70,11 @@ export default {
     async toggleToFavorite() {
       this.load = true
       const profile = JSON.parse(JSON.stringify(this.profile))
-      const favoritePlaceIndex = profile.favoritePlaces.findIndex((el) => el === this.id)
+      const favoritePlaceIndex = profile[this.favoritesCollection].findIndex((el) => el === this.id)
       if (favoritePlaceIndex === -1) {
-        profile.favoritePlaces.push(this.id)
+        profile[this.favoritesCollection].push(this.id)
       } else {
-        profile.favoritePlaces.splice(favoritePlaceIndex, 1)
+        profile[this.favoritesCollection].splice(favoritePlaceIndex, 1)
       }
       await updateDoc('users', this.user.uid, profile)
         .then(() => {
@@ -96,6 +101,18 @@ export default {
 <style lang="scss">
 .favorite {
   pointer-events: all;
+}
+.favorite__btn {
+  border: none;
+  font-size: 16px;
+  width: 30px;
+  height: 30px;
+  line-height: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  border-radius: 50%;
 }
 .favorite--exists button {
   background: lightgreen;

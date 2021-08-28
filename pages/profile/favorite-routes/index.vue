@@ -1,10 +1,10 @@
 <template>
   <profile-page>
     <profile-favorites
-      title="места"
-      collection="markers"
-      favorites-collection="favoritePlaces"
-      pages-collection="places"
+      title="маршруты"
+      collection="routes"
+      favorites-collection="favoriteRoutes"
+      pages-collection="routes"
     />
   </profile-page>
 </template>

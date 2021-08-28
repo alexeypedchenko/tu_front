@@ -6,7 +6,7 @@
 
 <script>
 export default {
-  name: 'Text',
+  name: 'BuilderText',
   props: {
     text: {
       type: String,

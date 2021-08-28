@@ -25,9 +25,10 @@
           </div>
         </div>
         <div class="card__actions">
-          <card-favorite :id="item._id" />
+          <card-favorite
+            :favorites-collection="favoritesCollection"
+            :id="item._id" />
           <card-route :id="item._id" />
-          <!-- TODO add to route -->
         </div>
       </div>
 
@@ -47,7 +48,7 @@
       </div>
 
       <div class="card__footer">
-        <nuxt-link class="btn" :to="`/places/${item.link}`">
+        <nuxt-link class="btn" :to="`/${pagesCollection}/${item.link || item.slug}`">
           Подробнее
         </nuxt-link>
       </div>
@@ -62,6 +63,14 @@ export default {
   name: 'Card',
   props: {
     size: {
+      type: String,
+      default: '',
+    },
+    pagesCollection: {
+      type: String,
+      default: '',
+    },
+    favoritesCollection: {
       type: String,
       default: '',
     },
@@ -120,7 +129,7 @@ export default {
 }
 .card__head {
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   justify-content: space-between;
   margin-bottom: 40px;
 }
@@ -132,6 +141,14 @@ export default {
     &:not(:last-child) {
       margin-right: 5px;
     }
+  }
+}
+.card__actions {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  & > * {
+    margin-bottom: 4px;
   }
 }
 .card__name {

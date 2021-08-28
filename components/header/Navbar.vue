@@ -22,13 +22,18 @@ export default {
       links: [
         {
           id: 0,
-          name: 'Home',
+          name: 'Главная',
           ref: '/',
         },
         {
           id: 1,
-          name: 'Places',
+          name: 'Места',
           ref: '/places',
+        },
+        {
+          id: 2,
+          name: 'Маршруты',
+          ref: '/routes',
         },
       ],
     }

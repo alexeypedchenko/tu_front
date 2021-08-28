@@ -53,9 +53,6 @@ export default {
         if (this.route.length) {
           this.map.route.clear()
           this.map.route.draw(this.route)
-          setTimeout(() => {
-            this.centeredMap()
-          }, 1000);
         }
       }
     },

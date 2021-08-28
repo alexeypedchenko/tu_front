@@ -5,7 +5,7 @@
 
 <script>
 export default {
-  name: 'Texteditor',
+  name: 'BuilderTexteditor',
   props: {
     text: {
       type: String,

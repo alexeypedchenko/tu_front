@@ -1,7 +1,8 @@
 <template>
   <div class="home">
-    <!-- <pages-home-filter /> -->
-    <route-editor />
+    <div class="container">
+      home page
+    </div>
   </div>
 </template>
 

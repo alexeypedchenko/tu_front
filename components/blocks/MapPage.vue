@@ -21,13 +21,14 @@
           :key="item.id"
           :index="index"
           :item="item"
-          @details-item="detailsItem"
+          :pages-collection="pagesCollection"
+          :favorites-collection="favoritesCollection"
           ref="mapPreview"
         />
       </div>
     </div>
 
-    <div class="map-page__map">
+    <div class="map-page__map" v-if="showMap">
       <google-map
         :items="items"
         :route="route"
@@ -50,6 +51,10 @@ export default {
       type: Boolean,
       default: true,
     },
+    showMap: {
+      type: Boolean,
+      default: true,
+    },
     items: {
       type: Array,
       default: () => ([]),
@@ -65,6 +70,14 @@ export default {
     route: {
       type: Array,
       default: () => ([]),
+    },
+    pagesCollection: {
+      type: String,
+      default: '',
+    },
+    favoritesCollection: {
+      type: String,
+      default: '',
     },
   },
   watch: {
@@ -83,11 +96,6 @@ export default {
   },
   computed: {
     ...mapState('map', ['hoveredMarkerIndex']),
-  },
-  methods: {
-    detailsItem(item) {
-      this.$emit('details-item', item)
-    }
   },
   beforeDestroy() {
     this.$store.commit('map/mapDestroy')

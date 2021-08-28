@@ -1,12 +1,13 @@
 <template>
   <blocks-map-page
     v-if="dataLoaded"
-    :items="filtredMarkers"
+    :items="filtredRoutes"
     :filters="getFilters"
     :filterList="getFilterList"
-    storeName="markers"
-    pages-collection="places"
-    favorites-collection="favoritePlaces"
+    storeName="routes"
+    pages-collection="routes"
+    favorites-collection="favoriteRoutes"
+    :showMap="false"
   />
 </template>
 
@@ -18,18 +19,18 @@ import {
 
 export default {
   async fetch ({store}) {
-    const {dataLoaded} = store.state.markers
+    const {dataLoaded} = store.state.routes
     if (!dataLoaded) {
-      await store.dispatch('markers/getCollection')
+      await store.dispatch('routes/getCollection')
     }
   },
   computed: {
-    ...mapState('markers', [
+    ...mapState('routes', [
       'dataLoaded',
       'list'
     ]),
-    ...mapGetters('markers', [
-      'filtredMarkers',
+    ...mapGetters('routes', [
+      'filtredRoutes',
       'getFilters',
       'getFilterList',
     ]),

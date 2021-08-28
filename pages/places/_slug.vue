@@ -6,7 +6,6 @@
       :image="page.image"
     />
     <builder :blocks="page.pageBlocks" />
-    <pre>{{page}}</pre>
   </div>
 </template>
 
@@ -23,6 +22,9 @@ export default {
       const slug = this.$route.params.slug
       return getObjectByKey(this.list, 'slug', slug)
     }
+  },
+  mounted() {
+    console.log('this.page:', this.page)
   },
   methods: {
     async setPage() {

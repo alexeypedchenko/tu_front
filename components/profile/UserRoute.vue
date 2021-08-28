@@ -38,6 +38,8 @@
               :index="index"
               :item="item"
               size="sm"
+              favorites-collection="favoritePlaces"
+              pages-collection="places"
             />
           </div>
         </div>

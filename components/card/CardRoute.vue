@@ -2,9 +2,10 @@
   <div class="card-route">
     <button
       @click="showModal"
+      class="card-route__btn"
       :class="{'btn--load' : load}"
     >
-      to route
+      в маршрут
     </button>
 
     <modal
@@ -167,6 +168,11 @@ export default {
 <style lang="scss">
 .card-route {
   pointer-events: all;
+}
+.card-route__btn {
+  font-size: 10px;
+  padding: 2px 4px;
+  border: none;
 }
 .card-route-modal {
   h3 {

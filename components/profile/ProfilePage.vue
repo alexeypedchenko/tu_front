@@ -35,6 +35,10 @@ export default {
           ref: '/profile/favorite-places',
         },
         {
+          name: 'Избранные маршруты',
+          ref: '/profile/favorite-routes',
+        },
+        {
           name: 'Свои маршруты',
           ref: '/profile/user-routes',
         },
