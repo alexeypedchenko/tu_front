@@ -1,4 +1,5 @@
-import { getUniqueCollection } from '~/utils/functions'
+import { filtredItems, filterList } from '~/utils/store'
+
 import {
   getCollection,
   createDoc,
@@ -7,7 +8,6 @@ import {
   deleteDoc,
 } from '~/firebase/firebaseApi'
 
-const IS_ARRAY = true
 const collection = 'markers'
 
 export const state = () => ({
@@ -16,81 +16,20 @@ export const state = () => ({
   list: [],
   filters: {
     name: '',
-    type: '',
     tags: '',
-    town: '',
     region: '',
   },
 })
 
 export const getters = {
-  filtredMarkers(state, getters, store) {
-    const markers = state.list
-    const filters = state.filters
-
-    return markers.filter((place) => {
-      let condition = true
-
-      for (let [name, value] of Object.entries(filters)) {
-        // 1. - если значение фильтра пустое переходим к следующему фильтру.
-        if (!value) continue
-
-        let prop = place[name]
-
-        // 2. - если значение фильтра не пустое и объект 'place' по ключу фильтра не имеет вхождений
-        // значит условие не соответствует => исключаем объект из фильтра.
-        if (
-          (name !== 'name' && typeof prop === 'string' && prop !== value)
-          || (name !== 'name' && typeof prop === 'object' && !prop.includes(value))
-        ) {
-          condition = false
-        }
-
-        // 3. - Фильтр поиска имеет ключ 'name'
-        // приводим поле поиска и поля обьекта к нижнему регистру
-        if (name === 'name') {
-          value = value.toLowerCase().trim()
-          prop = prop.toLowerCase().trim()
-
-          if (!prop.includes(value)) {
-            condition = false
-          }
-        }
-
-        // 4. - примечание!
-        // Объект 'place' обязательно должен иметь такие же ключи как и объект 'filters'.
-      }
-
-      return condition
-    })
+  filtredMarkers(state) {
+    return filtredItems(state)
   },
   getFilters(state) {
     return state.filters
   },
   getFilterList(state) {
-    // собираем списки фильтров по ключам из списка элементов
-    const markers = state.list
-    const filterTypes = Object.keys(state.filters)
-    const filterList = {}
-
-    for(const key of filterTypes) {
-      if (key === 'name') {
-        continue
-      }
-
-      switch (typeof markers[0][key]) {
-        case 'string':
-          filterList[key] = getUniqueCollection(markers, key)
-          break
-        case 'object':
-          filterList[key] = getUniqueCollection(markers, key, IS_ARRAY)
-          break
-        default:
-          break
-      }
-    }
-
-    return filterList
+    return filterList(state)
   },
 }
 

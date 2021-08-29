@@ -1,8 +1,11 @@
 <template>
   <div class="fltr">
-    <div class="fltr__head">
+    <div
+      v-if="title"
+      class="fltr__head"
+    >
       <div class="fltr__title">
-        Открой для себя больше новых мест!
+        {{ title }}
       </div>
       <button
         v-if="hasFilters"
@@ -43,8 +46,9 @@
     </nuxt-link>
 
     <div
-      v-if="hasFilters"
       class="fltr__footer"
+      :class="{'fltr__footer--visible' : hasFilters}"
+
     >
       <b>Найдено:</b> {{ items.length }} мест.
     </div>
@@ -59,6 +63,10 @@ export default {
   name: 'Fltr',
   props: {
     storeName: {
+      type: String,
+      default: '',
+    },
+    title: {
       type: String,
       default: '',
     },
@@ -167,9 +175,10 @@ export default {
 }
 .fltr__footer {
   font-size: 14px;
-  height: 20px;
-  position: absolute;
-  bottom: 0;
-  left: 0;
+  opacity: 0;
+  margin-top: 2px;
+}
+.fltr__footer--visible {
+  opacity: 1;
 }
 </style>

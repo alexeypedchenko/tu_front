@@ -63,9 +63,6 @@ export default {
     align-items: flex-start;
     width: 100%;
   }
-  .fltr__head {
-    display: none;
-  }
   .fltr__list {
     display: flex;
     width: 100%;

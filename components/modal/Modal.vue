@@ -1,7 +1,10 @@
 <template>
   <div
     class="modal"
-    :class="{'modal--opened' : opened}"
+    :class="{
+      'modal--opened' : opened,
+      'modal--full-screen' : size === 'fs',
+    }"
   >
     <div class="modal__bg" @click="close"></div>
     <div class="modal__window">
@@ -23,11 +26,26 @@ export default {
       type: Boolean,
       default: false,
     },
+    size: {
+      type: String,
+      default: '',
+    },
+  },
+  mounted() {
+    window.addEventListener('keyup', this.closeOnEscape)
   },
   methods: {
     close() {
       this.$emit('close')
+    },
+    closeOnEscape({key, code}) {
+      if (key === 'Escape' || code === 'Escape') {
+        this.close()
+      }
     }
+  },
+  destroyed() {
+    window.removeEventListener('keyup', this.closeOnEscape)
   }
 }
 </script>
@@ -59,7 +77,7 @@ export default {
   width: 100%;
   height: 100%;
   z-index: 1;
-  background: rgba(#000, 0.1);
+  background: rgba(#000, 0.3);
 }
 .modal__window {
   position: relative;
@@ -85,5 +103,13 @@ export default {
   padding: 0;
   border: 1px solid #000;
   z-index: 1;
+}
+.modal--full-screen {
+  .modal__window {
+    width: calc(100% - 40px);
+    height: calc(100% - 40px);
+    max-height: 100%;
+    padding: 40px;
+  }
 }
 </style>

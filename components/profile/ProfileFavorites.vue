@@ -12,8 +12,6 @@
         :key="item.id"
         :index="index"
         :item="item"
-        :favorites-collection="favoritesCollection"
-        :pages-collection="pagesCollection"
       />
     </div>
   </div>
@@ -34,10 +32,6 @@ export default {
       default: '',
     },
     favoritesCollection: {
-      type: String,
-      default: '',
-    },
-    pagesCollection: {
       type: String,
       default: '',
     },

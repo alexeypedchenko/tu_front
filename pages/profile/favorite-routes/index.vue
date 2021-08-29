@@ -4,7 +4,6 @@
       title="маршруты"
       collection="routes"
       favorites-collection="favoriteRoutes"
-      pages-collection="routes"
     />
   </profile-page>
 </template>

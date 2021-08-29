@@ -173,7 +173,7 @@ export class GoogleMap {
     marker.addListener('click', () => {
       if(infoWindow.getMap()) {
         infoWindow.close(this.map, marker)
-        this.centeredMap()
+        // this.centeredMap()
       } else {
         // имитация клика по карте для закрытия всех infoWindow
         google.maps.event.trigger(this.map, 'click')
@@ -182,10 +182,10 @@ export class GoogleMap {
         infoWindow.open(this.map, marker)
 
         // Центрируем карту относительно нужного маркера
-        this.map.setCenter(marker.getPosition())
+        // this.map.setCenter(marker.getPosition())
 
         // приближаем карту
-        this.map.setZoom(10)
+        // this.map.setZoom(10)
       }
     })
   }

@@ -4,15 +4,13 @@
       ref="content"
       class="map-page__content"
     >
-      <div
-        v-if="showFilter"
-        class="map-page__filter"
-      >
+      <div class="map-page__filter">
         <fltr
-          :storeName="storeName"
           :filters="filters"
           :filterList="filterList"
           :items="items"
+          storeName="markers"
+          title="Открой для себя больше новых мест!"
         />
       </div>
       <div class="map-page__items">
@@ -21,14 +19,13 @@
           :key="item.id"
           :index="index"
           :item="item"
-          :pages-collection="pagesCollection"
-          :favorites-collection="favoritesCollection"
           ref="mapPreview"
+          :class="{'card--active' : index === hoveredMarkerIndex}"
         />
       </div>
     </div>
 
-    <div class="map-page__map" v-if="showMap">
+    <div class="map-page__map">
       <google-map
         :items="items"
         :route="route"
@@ -43,18 +40,6 @@ import { mapState } from 'vuex'
 export default {
   name: 'MapPage',
   props: {
-    storeName: {
-      type: String,
-      default: '',
-    },
-    showFilter: {
-      type: Boolean,
-      default: true,
-    },
-    showMap: {
-      type: Boolean,
-      default: true,
-    },
     items: {
       type: Array,
       default: () => ([]),
@@ -70,14 +55,6 @@ export default {
     route: {
       type: Array,
       default: () => ([]),
-    },
-    pagesCollection: {
-      type: String,
-      default: '',
-    },
-    favoritesCollection: {
-      type: String,
-      default: '',
     },
   },
   watch: {
@@ -96,9 +73,6 @@ export default {
   },
   computed: {
     ...mapState('map', ['hoveredMarkerIndex']),
-  },
-  beforeDestroy() {
-    this.$store.commit('map/mapDestroy')
   },
 }
 </script>
@@ -121,11 +95,9 @@ export default {
   overflow: auto;
 }
 .map-page__filter {
-  margin-bottom: 20px;
   .fltr__list {
     display: flex;
     flex-wrap: wrap;
-    margin-bottom: 8px;
     .fltr__item {
       width: calc(50% - 4px);
       margin-bottom: 8px;

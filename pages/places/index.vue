@@ -4,9 +4,6 @@
     :items="filtredMarkers"
     :filters="getFilters"
     :filterList="getFilterList"
-    storeName="markers"
-    pages-collection="places"
-    favorites-collection="favoritePlaces"
   />
 </template>
 
@@ -26,7 +23,6 @@ export default {
   computed: {
     ...mapState('markers', [
       'dataLoaded',
-      'list'
     ]),
     ...mapGetters('markers', [
       'filtredMarkers',

@@ -1,14 +1,11 @@
 <template>
   <div
     class="card"
-    :class="{
-      'card--active' : index === hoveredMarkerIndex,
-      'card--sm' : size === 'sm',
-    }"
+    :class="{'card--sm' : size === 'sm'}"
     @mouseenter="handleEnter"
     @mouseleave="handleLeave"
     :style="`background-image: url(${item.image})`"
-    @click.self="showOnMap(index)"
+    @click.self="setSelf(index)"
   >
     <div class="card__content">
       <div class="card__head">
@@ -26,9 +23,13 @@
         </div>
         <div class="card__actions">
           <card-favorite
-            :favorites-collection="favoritesCollection"
-            :id="item._id" />
-          <card-route :id="item._id" />
+            :type="item.type"
+            :id="item._id"
+          />
+          <card-route
+            v-if="item.type === 'marker'"
+            :id="item._id"
+          />
         </div>
       </div>
 
@@ -48,7 +49,7 @@
       </div>
 
       <div class="card__footer">
-        <nuxt-link class="btn" :to="`/${pagesCollection}/${item.link || item.slug}`">
+        <nuxt-link class="btn" :to="link">
           Подробнее
         </nuxt-link>
       </div>
@@ -57,20 +58,12 @@
 </template>
 
 <script>
-import { mapState, mapGetters } from 'vuex'
+import { mapGetters } from 'vuex'
 
 export default {
   name: 'Card',
   props: {
     size: {
-      type: String,
-      default: '',
-    },
-    pagesCollection: {
-      type: String,
-      default: '',
-    },
-    favoritesCollection: {
       type: String,
       default: '',
     },
@@ -84,23 +77,33 @@ export default {
     },
   },
   computed: {
-    ...mapState('map', ['hoveredMarkerIndex']),
     ...mapGetters('map', ['isMapInit']),
+    link() {
+      if (this.item.type === 'marker') {
+        return `/places/${this.item.link}`
+      }
+      if (this.item.type === 'route') {
+        return `/routes/${this.item.slug}`
+      }
+      return '/'
+    }
   },
   methods: {
-    handleDetails() {
-      this.$emit('details-item', this.item)
-    },
-    showOnMap(index) {
-      if (!this.isMapInit) return
+    setSelf(index) {
+      this.$emit('active', {
+        index: index,
+        item: this.item,
+      })
+
+      if (!this.isMapInit || this.item.type === 'route') return
       this.$store.commit('map/openInfoWindow', index)
     },
     handleEnter() {
-      if (!this.isMapInit) return
+      if (!this.isMapInit || this.item.type === 'route') return
       this.$store.commit('map/showHoveredMarker', this.item)
     },
     handleLeave() {
-      if (!this.isMapInit) return
+      if (!this.isMapInit || this.item.type === 'route') return
       this.$store.commit('map/showHoveredMarker', null)
     },
   }

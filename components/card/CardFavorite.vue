@@ -33,7 +33,7 @@ export default {
       type: String,
       default: '',
     },
-    favoritesCollection: {
+    type: {
       type: String,
       default: '',
     },
@@ -50,8 +50,16 @@ export default {
       'user',
       'profile',
     ]),
+    collection() {
+      if (this.type === 'marker') {
+        return 'favoritePlaces'
+      }
+      if (this.type === 'route') {
+        return 'favoriteRoutes'
+      }
+    },
     inFavorite() {
-      return this.profile && this.profile[this.favoritesCollection].includes(this.id)
+      return this.profile && this.profile[this.collection].includes(this.id)
     }
   },
   methods: {
@@ -70,11 +78,11 @@ export default {
     async toggleToFavorite() {
       this.load = true
       const profile = JSON.parse(JSON.stringify(this.profile))
-      const favoritePlaceIndex = profile[this.favoritesCollection].findIndex((el) => el === this.id)
+      const favoritePlaceIndex = profile[this.collection].findIndex((el) => el === this.id)
       if (favoritePlaceIndex === -1) {
-        profile[this.favoritesCollection].push(this.id)
+        profile[this.collection].push(this.id)
       } else {
-        profile[this.favoritesCollection].splice(favoritePlaceIndex, 1)
+        profile[this.collection].splice(favoritePlaceIndex, 1)
       }
       await updateDoc('users', this.user.uid, profile)
         .then(() => {

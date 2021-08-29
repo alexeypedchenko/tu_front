@@ -20,8 +20,6 @@ export default {
     ]),
     page() {
       const slug = this.$route.params.slug
-      console.log('slug:', slug)
-      console.log('this.list:', this.list)
       return getObjectByKey(this.list, 'slug', slug)
     }
   },

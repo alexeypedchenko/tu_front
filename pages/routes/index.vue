@@ -1,13 +1,9 @@
 <template>
-  <blocks-map-page
+  <route-page
     v-if="dataLoaded"
     :items="filtredRoutes"
     :filters="getFilters"
     :filterList="getFilterList"
-    storeName="routes"
-    pages-collection="routes"
-    favorites-collection="favoriteRoutes"
-    :showMap="false"
   />
 </template>
 
@@ -27,7 +23,6 @@ export default {
   computed: {
     ...mapState('routes', [
       'dataLoaded',
-      'list'
     ]),
     ...mapGetters('routes', [
       'filtredRoutes',

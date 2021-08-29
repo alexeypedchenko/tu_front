@@ -30,9 +30,13 @@
             :key="route.name"
             @click="selectRoute(route.name)"
             class="card-route-item"
-            :class="{'card-route-selected' : selectedRoute === route.name}"
+            :class="{
+              'card-route-selected' : selectedRoute === route.name,
+              'card-route-includes' : route.list.includes(id),
+            }"
           >
             {{ route.name }} {{ selectedRoute === route.name ? '✓' : '' }}
+            {{ route.list.includes(id) ? '- добавлен ✓' : ''}}
           </div>
         </div>
 
@@ -202,5 +206,9 @@ export default {
 }
 .card-route-selected {
   text-decoration: underline;
+}
+.card-route-includes {
+  pointer-events: none;
+  opacity: 0.4;
 }
 </style>

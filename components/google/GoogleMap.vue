@@ -50,10 +50,7 @@ export default {
     },
     route(afterData, beforeData) {
       if (JSON.stringify(afterData) !== JSON.stringify(beforeData)) {
-        if (this.route.length) {
-          this.map.route.clear()
-          this.map.route.draw(this.route)
-        }
+        this.drawRoute()
       }
     },
     triggerInfoWindow(afterData, beforeData) {
@@ -83,6 +80,7 @@ export default {
       .then(() => {
         this.$store.commit('map/mapInit')
         this.drawMapData()
+        this.drawRoute()
       })
   },
   methods: {
@@ -101,7 +99,16 @@ export default {
       if (this.showRoute) {
         this.map.route.draw(this.items)
       }
+    },
+    drawRoute() {
+      if (this.route.length) {
+        this.map.route.clear()
+        this.map.route.draw(this.route)
+      }
     }
+  },
+  destroy() {
+    this.$store.commit('map/mapDestroy')
   },
 }
 </script>

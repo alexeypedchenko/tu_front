@@ -4,7 +4,6 @@
       title="места"
       collection="markers"
       favorites-collection="favoritePlaces"
-      pages-collection="places"
     />
   </profile-page>
 </template>
