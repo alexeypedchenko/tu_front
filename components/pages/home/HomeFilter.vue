@@ -6,24 +6,41 @@
           v-for="type in filterTypes"
           :key="type"
           @click="filterType = type"
+          class="home-filter-type"
+          :class="{'home-filter-type-active' : filterType === type}"
         >
-          {{ type }}
+          {{ type === 'places' ? 'Места' : 'Маршруты' }}
         </div>
       </div>
       <div class="home-filter-list">
-        <div v-if="filterType === 'places'">
-          <fltr
-            storeName="markers"
-            :filters="markerFilters"
-            :filterList="markerFilterList"
-            :items="markers"
-            :searchField="false"
-            route="/places"
-          />
-        </div>
-        <div v-if="filterType === 'routes'">
-          2
-        </div>
+        <transition name="fade" mode="out-in">
+          <div
+            v-if="filterType === 'places'"
+            key="places"
+          >
+            <fltr
+              storeName="markers"
+              :filters="markerFilters"
+              :filterList="markerFilterList"
+              :items="markers"
+              :searchField="false"
+              route="/places"
+            />
+          </div>
+          <div
+            v-if="filterType === 'routes'"
+            key="routes"
+          >
+            <fltr
+              storeName="routes"
+              :filters="routeFilters"
+              :filterList="routeFilterList"
+              :items="routes"
+              :searchField="false"
+              route="/routes"
+            />
+          </div>
+        </transition>
       </div>
     </div>
   </div>
@@ -48,6 +65,15 @@ export default {
     markerFilterList() {
       return this.$store.getters['markers/getFilterList']
     },
+    routes() {
+      return this.$store.getters['routes/filtredRoutes']
+    },
+    routeFilters() {
+      return this.$store.getters['routes/getFilters']
+    },
+    routeFilterList() {
+      return this.$store.getters['routes/getFilterList']
+    },
   },
   mounted() {
     // console.log('this.markerFilters:', this.markerFilters)
@@ -58,6 +84,12 @@ export default {
 
 <style lang="scss">
 .home-filter {
+  .container {
+    background: #FFFFFF;
+    box-shadow: 0px 0px 32px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    padding: 32px 32px 22px 32px;
+  }
   .fltr {
     display: flex;
     align-items: flex-start;
@@ -74,16 +106,23 @@ export default {
     }
   }
   .fltr__footer {
-    bottom: -14px;
+    display: none;
   }
 }
-.home-filter-list {
-  background: #FFFFFF;
-  box-shadow: 0px 0px 32px rgba(0, 0, 0, 0.1);
-  border-radius: 8px;
-  padding: 32px 32px 22px 32px;
-}
 .home-filter-toggle {
-  display: none;
+  display: flex;
+  margin-bottom: 15px;
+}
+.home-filter-type {
+  margin-right: 15px;
+  cursor: pointer;
+  border-bottom: 2px solid transparent;
+  transition: 0.3s;
+  &:hover {
+    border-color: rgba($main-cl, 0.3);
+  }
+  &.home-filter-type-active {
+    border-color: $main-cl;
+  }
 }
 </style>

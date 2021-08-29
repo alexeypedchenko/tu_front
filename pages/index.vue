@@ -1,7 +1,7 @@
 <template>
   <div class="home">
     <div class="container">
-      home page
+      <pages-home-filter />
     </div>
   </div>
 </template>
