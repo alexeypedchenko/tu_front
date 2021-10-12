@@ -39,6 +39,7 @@
             :key="item.id"
             :index="index"
             :item="item"
+            size="sm"
           />
         </div>
         <div class="route-modal__map">

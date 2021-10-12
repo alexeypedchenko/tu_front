@@ -8,7 +8,7 @@
     "start": "nuxt start",
     "generate": "nuxt generate",
     "predeploy": "nuxt generate",
-    "deploy": "gh-pages -b gh-page -d dist"
+    "deploy": "gh-pages -b gh-page -d dist --dotfiles"
   },
   "dependencies": {
     "@googlemaps/js-api-loader": "^1.11.4",

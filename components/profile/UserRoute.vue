@@ -10,7 +10,6 @@
       <button @click="$emit('back')">
         Назад ⟵
       </button>
-      <!-- TODO удаление маршрута -->
     </div>
     <div class="user-route__body">
       <div class="user-route__places">
@@ -28,9 +27,9 @@
               <button @click="showConfirmDeletePlaceModal(item._id)">
                 Удалить
               </button>
-              <button>
+              <!-- <button>
                 Порядок /\ \/
-              </button>
+              </button> -->
               <!-- TODO удаление места из маршрута -->
               <!-- TODO изменить порядковый номер места -->
             </div>
@@ -62,7 +61,7 @@
     />
     <modal-confirm
       :opened="confirmDeletePlaceModal"
-      text="Удалить место из избранного?"
+      text="Удалить место из маршрута?"
       @close="closeConfirmDeletePlaceModal"
       @yes="deletePlaceByRoute"
     />

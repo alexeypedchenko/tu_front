@@ -111,11 +111,12 @@ export default {
   display: flex;
   flex-wrap: wrap;
   .card {
-    width: calc(50% - 8px);
+    // width: calc(50% - 8px);
+    width: 100%;
     margin-bottom: 16px;
-    &:nth-child(odd) {
-      margin-right: 16px;
-    }
+    // &:nth-child(odd) {
+    //   margin-right: 16px;
+    // }
   }
 }
 .map-page__map {

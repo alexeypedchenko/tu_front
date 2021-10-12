@@ -13,8 +13,8 @@
       @submit.prevent="submit"
       autocomplete="off"
     >
-      <input v-model="email" type="email" name="email">
-      <input v-model="password" type="password" name="password">
+      <input v-model="email" type="email" name="email" placeholder="Введите e-mail">
+      <input v-model="password" type="password" name="password" placeholder="Введите пароль">
       <p v-if="error">
         {{ error }}
       </p>

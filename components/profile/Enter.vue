@@ -8,11 +8,11 @@
       <profile-logout />
     </template>
     <template v-else>
-      <button @click="signUp">
+      <button class="btn" @click="signUp">
         sign up
       </button>
 
-      <button @click="signIn">
+      <button class="btn" @click="signIn">
         sign in
       </button>
     </template>
@@ -45,5 +45,10 @@ export default {
 }
 </script>
 
-<style>
+<style lang="scss">
+.enter {
+  .btn {
+    margin-left: 10px;
+  }
+}
 </style>

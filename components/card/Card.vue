@@ -121,7 +121,7 @@ export default {
   padding: 20px;
   display: flex;
   flex-direction: column;
-  min-height: 300px;
+  min-height: 250px;
   background: rgba(#000, 0.2);
   transition: 0.3s;
   pointer-events: none;
